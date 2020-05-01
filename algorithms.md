@@ -203,7 +203,6 @@ for the new (key, priority) pair is randomly generated for us.
 ## AVL Trees
 
 
-
 # Hashing 
 ## Hash tables
 A hash function is a function where you put in a string and you get back a number.
