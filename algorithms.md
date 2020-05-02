@@ -201,6 +201,154 @@ both a key and a priority for insertion, `we only supply a key`, and the priorit
 for the new (key, priority) pair is randomly generated for us.
 
 ## AVL Trees
+(Adelson-Velsky and Landis tree)
+
+An AVL Tree is a Binary Search Tree in which, for all nodes in the tree, the
+heights of the two child subtrees of the node differ by at most one. If two
+subtree heights differ by more than one `rabalancing is done`.
+
+1. Balance Factor of a node
+    difference in height between two subtrees
+2. Balance factor in AVL tree for all nodes must be less than 2
+
+AVL rotations change the number of children in two node.
+Node that is a child gives one it's child to the parent.
+
+> Operations
+`Insertion`
+    1. Regular BST insertion
+    2. Go up the tree and update all balance factors.
+    3. For parent nodes that are out of balance, perform AVL rotation with it's child.
+`Removal`
+    1. Regular BST removal
+    2. Go up the tree and update the balance factor.
+    3. Perform AVL rotations when needed.
+
+Because of this phenomenon where the `tree balances itself` without any user guidance,
+we call AVL Trees "self-balancing."
+
+**Note** sometimes a single rotation fails to balance the tree.
+To combat this problem, we will introduce the `double rotation`:
+    1. Transfor a kink (curve) into a more straight line with one rotation
+    2. Balance the staright line with another rotation.
+```
+/
+\
+then
+ /
+/
+then 
+/\
+```
+You need to perform double rotation when you have a parent that is unbalanced
+(balance factor of 2) and a child that is `slightly unbalanced` (BF = 1)
+but in another direction (so you get the kink `>`)
+
+## Red-black trees
+This self-balancing tree is able to insert and delete with just a `single pass` 
+through the tree. (unlike avl where you needed two)
+
+RBT must have five properties:
+1. All nodes must be either red or black
+2. Root must be black
+3. If a node is red all children must be black
+4. For any node, path to a null reference (null right/left child down the tree) 
+    must contain `the same number of black nodes`
+5. Null references (null left/right children) are colored black.
+
+Some RBT are also AVL but not all.
+
+In some sence red nodes mean you can't add childrent to them until you
+have added some other nodes to those that are black. 
+
+To insert or delete nodes we can use AVL rotations and node recoloring.
+(remember you have to always keep yor root black)
+`default color` for newly-inserted nodes is always `red` 
+(to maintain constant path of black nodes)
+
+> Operations
+`Insertion`
+    1. BST insertion, color - red (if it's the first node in the tree, recolor it black)
+    2. If you run into black node with two red children, recolor all three nodes
+        (if after recoloring you have a black root, recolor it back to black)
+    3. If after BST insertion the parent of the node is red, make AVL
+        rotation of the parent and it's parent and swap their colors.
+    4. In case of a "kink", perform the double AVL rotation.
+        (Use it when you have two subsequent nodes of red color, but parent red is on
+        the left side and child is on the right or vice versa)
+
+RBT may be two times slower in find operations than AVL trees.
+But in insert and delete operations it's likely to be faster.
+
+## B-Trees
+Until now we have been assuming that all node accesses take that same amount of time.
+Which is not true (processor registers are 10x faster than RAM(5ns vs 50ns))
+
+The sections of memory in processor that are fast are small in size consequently,
+as our data structures grow in size, they will not be able to t in such
+a small section of memory.
+
+Processor loads data that is close spacially, close to each other.
+(e.g array values will be close spacially in processor cache)
+
+That means that to speed up our trees we need to minimize the number of traversals
+and `store as much data as possible close together`
+
+By having a node store multiple keys, we are able to trick the CPU into loading more than
+one key at once into a fast section of memory (L1 cache)
+
+A `B-Tree` is a self-balancing tree data structure that generally allows
+for a node to have more than two children 
+(to keep the tree wide and therefore from growing in height)
+
+`Order b` of a b-tree is the number of children any node is allowed to have.
+2b is the maximum number of children any internal node is allowed to have.
+
+B-Tree should satisfy the following properties:
+1. Every node has at most 2b children
+2. Every internal node has at least b children
+3. An internal node with k children contains k - 1 keys.
+4. All leaves appear in the same level.
+
+> Operations
+`Insertion`
+    The secret to having the leaves constantly be on the same level is
+    to have the `tree grow upward` instead of down from the root
+    
+    You insert values into a node, when you more than 2b - 1 values in a node
+    get an item in the center of the ordered array that contains values
+    and create a new parent node with this value, you you already have a parent
+    node, add to it this value, if i'ts full, take the middle value from there and 
+    go upwards again to create parent/add values to existing.
+`Deletion`
+    When deleting you need to consider 4 cases:
+        1. Deleting a leaf value - just delete
+        2. Deleting non-leaf value 
+            find a predecessor in subtree and put it in place of the value
+            predecessor can be found as the largest value in the left subtree
+            or smalles int the right subtree. (Note when you replace a predecessor
+            you technically deleting it from the previous place so you
+            need to find a predecessor for it as well unless it's a leaf node)
+        3. Delete the last value in a child node 
+            1. If you have "rich sibling"
+                Put value in child node from the parent node.
+                Get value from some other child and put it in the parent so that 
+                parent has the same number of values.
+            2. If you don't have a "rich sibling"
+                you need to "merge" (advanced)
+            
+# Introduction to Graphs
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Hashing 
