@@ -1,5 +1,5 @@
 # ■■■ Day 1
-# ■■■ Data structures
+# Data structures
 # Introduction
 A data structure, as implied by the name, is a particular structured way
 of storing data in a computer so that it can be used efficiently.
@@ -78,18 +78,18 @@ All nodes that have children are called internal nodes.
 There is a specic data structure that developers typically
 use to implement the Priority Queue ADT that guarantees
 O(n) peeking and O(log(n)) insertion.
-A `heap` is a tree that satises the `Heap Property`:
+A `heap` is a tree that satisfies the `Heap Property`:
   - for all nodes A and B if node A is the parent of node B,
     then node A has higher or equal priority
 
 The binary heap, has three constraints:
     + Heap property constraint
     + Binary tree property (amount of nodes is 0 - 2)
-    + `shaper property` A heap is a `complete tree`, 
+    + `shape property` A heap is a `complete tree`, 
         In other words, all levels of the tree, except possibly the bottom one,
         are fully filled, if last level is not complete is't filled from `left to right`.
 
-There are two `types of heaps`: min-heap and max-heap, they differ by prioryty
+There are two `types of heaps`: min-heap and max-heap, they differ by priority
 In min-heap the loves value is at the root of the tree.
 In max-heap the greatest value is at the root.
 
@@ -104,8 +104,7 @@ In max-heap the greatest value is at the root.
 `Removal`
     1. Remove the root
     2. Place the last added element as the root (bottom right element)
-    3. Swap the root with the most priority children until it has higher priority 
-        than it's children.
+    3. If nucessary, bubble down root with children that have higher priority.
 
 `it turns out that we can store a binary heap as an array`
 Parent of an element : Math.floor( (i - 1) / 2 )
@@ -143,6 +142,7 @@ We must consider three cases:
 a **balanced** k-ary tree is one where most nodes have exactly k children.
 nd all leaves are roughly equidistant from the root
 
+# ■■■ Day 2
 ## Randomized Search Tree
 The Randomized Search Tree is a special type of Binary Search Tree called
 a `Treap` (Tree + Heap)
@@ -336,20 +336,67 @@ B-Tree should satisfy the following properties:
                 parent has the same number of values.
             2. If you don't have a "rich sibling"
                 you need to "merge" (advanced)
-            
+
+# ■■■ Day 3          
 # Introduction to Graphs
+Graph consists of a set of edges and nodes (vertices).
+Graph can be represented as two sets (V, E) where V is a set of vertices 
+and E is a set of edges. G = (V,E)
 
+A `weighted graph` is a graph in which each edge has a weight
+A `cycle` in a graph is a valid path that starts and ends at the same node.
 
+## Graph Representations
+If every node in a graph is connected with every other node it has (n-1)^2 edges.
 
+You can represent a graph as a table where x and y are both complete lists
+of vertices and 1 or 0 put in some x,y coordinate means that there's an edge
+coming from x vertice to y.
+In weighted graphs you put number representing a weight instead of 1 and null instead of 0
 
+Table takes n^2 space which may be redundant for `sparse graphs`
+so you can represent graphs in another way using `adjacency list`
+which is a list of vertices and for every vertice you have a list of vertices
+this vertice is connected to:
+```
+a: {b, c}
+b: {e, f}
+```
 
+## Breadth First search
+Currently there's no algorithm that can calculate shortest path to a single 
+vertice without calculating path to every other vertice. The best optimisation we 
+can harness is to "quit early" when we see that this path obviously is not the most 
+optimal.
 
+One `algorithm to explore all vertices` in a graph is called Breadth First Search
+But it may consume a lot of computer memory because it uses Queue.
 
+## Depth first search
+The idea behind DFS is to explore all the vertices going down
+from the current vertex before moving on to the next neighboring vertex.
+recursive nature of the algorithm _provides the stack implementation for us_.
+DFS can be more memory efficient in certain cases.
 
+## Dijkstra's Algorithm
+The idea behind Dijkstra's Algorithm is that we are constantly looking for the
+lowest-weight paths and seeing which vertices are discovered along the way.
 
+Dijkstra's Algorithm needs to just
+1. Search for the next shortest path that exists in the graph
+2. See which vertex it discovers by taking that shortest path.
 
+# Greedy algorithms
+How to find biggest set of classes that overlap? Just keep picking those that 
+end the soonest. A greedy algorithm is simple: `at each step, pick the optimal move`.
 
+## Knapsack problem
+just pick the most expensive item every time.
 
+Sometimes all you need is an algorithm that solves the
+problem pretty well. And that’s where greedy algorithms shine
+
+`Dijkstra's` algorithm is a `greedy` algorithm. It always looks at the shortest path.
 
 # Hashing 
 ## Hash tables
@@ -393,7 +440,6 @@ on the path from the root to the node representing the corresponding element.
 Nodes that represent keys are labeled as "word nodes"
 
 Trie is a tree where leaves are denoted as word notes.
-
 A trie in which nodes can have more than two edges are known as `Multiway Tries`
 We represent edges as letters.
 
@@ -401,9 +447,11 @@ even if you are able to traverse all of the required edges, if the node you
 land on is not a `word node` the word does not exist in the trie.
 In trie data structure a `letter labels edge, not node`.
 
-## Using Ternary Search Trees
 
+# Javascript Algorithms and Data Structures >>>>>
 
+# Thinking like a programmer >>>>>
+# Solving problems with arrays
 
 
 
