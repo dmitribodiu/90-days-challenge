@@ -18,8 +18,13 @@
         2x - 5 <= -3, x <= 1
 
 # 2. Rectangular coordinate system
+Distance in rectanguar coordinate system is equal to sqrt( (x1 - x2)^2 + (y1 - y2)^2 )
+To dind some point laying on a line x1y1 -> x2y2 you need to get differences between
+x1 and x2 and y1 and y2, multiply them by the percent you need and add resulting 
+values to x1 and y2 respectively.
 
-
+# 3. Lines
+<!-- p18 (14) -->
 
 
 
