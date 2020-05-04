@@ -447,51 +447,139 @@ even if you are able to traverse all of the required edges, if the node you
 land on is not a `word node` the word does not exist in the trie.
 In trie data structure a `letter labels edge, not node`.
 
-
+# ■■■ Day 4
 # Javascript Algorithms and Data Structures >>>>>
+# Memory management
+## Memory leak
+A memory leak is a failure in a program to release discarded memory
+Access to a reference to an object loads the whole object into memory.
 
-# Thinking like a programmer >>>>>
-# Solving problems with arrays
+## Leaking DOM
+When you delete an element from html you should make sure that there are no
+other variables in your code that reference that html element, otherwise the 
+element will be deleted in html but still remain in memory, because some variable 
+points to it.  
 
+## Limiting object references
+Don't pass the whole object into a function, because it makes function download
+the whole object on the stack. Instead pass only parameters you need. 
+(Do it for large objects)
+```js
+my_func(myobj);// no-no if an object is big
+my_func(myobj.property); // do this instead
+```
 
+# Recursion
+## Fibonacci with tail recursion
+A tail recursive function is a recursive function in which the recursive call is the last
+executed thing in the function.  
+```js
+function fibonacci(n, lastlast, last) {
+    if (n == 0) {
+        return lastlast;
+    if (n == 1) {
+        return last;
+    return fibonacci(n-1, last, lastlast + last);
+}
+```
+Recursive functions have an additional space complexity cost that comes from the
+recursive calls that need to be stored in the operating system’s memory stack.
 
+# Sets
+Set is a group of definite distinct objects. Sets are `based on hash tables`
+and have checking and adding a unique element in O(1).
+```js
+let set = new Set();
+```
+Sets have only one property - `size`, which represents current number of objects in set.
 
+## Operations
+Set has one primary function: to check for uniqueness.
+```js
+var exampleSet = new Set();
+exampleSet.add(1); // {1}
+exampleSet.add(1); // {1} <= duplicates are silently ignored.
+exampleSet.add(2); // {1,2}
+exampleSet.delete(1); // {2}
+exampleSet.has(1); // false
+exampleSet.has(2); // true
 
+/*utility functions*/
+function setIntersection(set1, set2) {
+    /*you need to transform a set into an array to access array's methods*/
+    [...set1].map(elem => set2.has(elem) ? elem : null).filter(elem => elem);
+}
+function isSupersetOf(super, sub) {
+    return [...sub].every(elem => super.has(elem));
+}
+function unite(set1, set2) {
+    const newSet = new Set(set1);
+    for(let elem of set2) 
+        newSet.add(elem);
+    return newSet;
+}
+function XOR(set1, set2) {
+    const diff = new Set();
+    for(let elem of [...set1, ...set2])
+        if( !(set1.has(elem) && set2.has(elem)) ) 
+            diff.add(elem);
+    return diff;
+}
+```
 
+# Searching and sorting
+## Sorts
+> Selection
+1. Find smallest
+2. Unshift
 
+> Insertion
+1. Take next
+2. Find place to insert
+(some implementations use "bubbling" technique where you take next item swat it
+with items you have until the item finds it's place)
 
+> Count sort
+This sort doesn't compare values and works only for integers of a small range.
+How it works? It counts number of occurences of every number in an array and 
+then recreates array from scratch by putting numbers in an array the amount of 
+times it saw it before.
+```js
+// coute array
+[3,1,3,1,3,1,1]
 
+{
+    "0" : 0
+    "1" : 4
+    "2" : 0
+    "3" : 3
+}
+ 
+[0,1,1,1,1,3,3,3]
+```
 
+## Exercise
+1. sqrt without any math library
+    1. Use binary search
+```js
+function getSr(n) {                             // sr -> square root
+    if(n == 1 || n == 0 ) return n;
+    if(n%1 != 0) 
+        throw new Error("Only integers allowed");
+    
+    let sr = 1;
+    let learning_rate = 2;
+    
+    while((sr**2).toFixed(5) != n) {
+        let try_sr = sr + learning_rate;
+        if(try_sr**2 < n) {
+            sr = try_sr;
+        } else {
+            learning_rate /= 2;
+        }
+    }
+    return sr;
+}
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Trees
