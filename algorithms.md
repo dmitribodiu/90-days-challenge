@@ -582,4 +582,108 @@ function getSr(n) {                             // sr -> square root
 }
 ```
 
+# ■■■ Day 5
 # Trees
+## Tree traversal
+1. Pre-order traversal (depth-first parent first)
+2. In-order traversla (form the smallest number to the biggest
+    (using `successor` finding algorithm)
+3. Post-order traversal (depth-first childrent first)
+4. Level-order traversal (breadth-first)
+
+## Heap sort
+Pop from heap repeatedly.
+`O(n * log(n))` on theory as fast as you can get, but in practice it's a little slower
+than quick sort.
+
+# Strings
+## Trie(prefix tree)
+Trie is a tree that has it's leaves as ending letters of words.
+To delete a word you just go the the leaf of the word, and then go 
+upwords until there's a node with more than one child.
+(to not to accidentally delete another word)
+
+## Boyer-moore string search
+For each substring that you want to find in some string you need first to 
+create a match table for each letter which will specify how many characters you can skip
+in case the string you compare your substing to doesn't contain the letter.
+e.g : `jam {j: 2, a: 1, m: 3}`
+Then each time you move you see if substring has one of characters in the table, 
+if it has you can skip max number, if it doesn't you skip by 1.
+
+# CTCI
+Check uniqness of characters in a string without hastable.
+```js
+function unique(string) {
+    if(string.length < 3)
+        return string[1] != string[2];    
+    
+    let suffix = string.slice(1);
+    let letter = string[0];
+    return without_letters(suffix, letter) && unique(suffix);
+}
+
+function without_letters(str, letters) {
+    let result = true;
+    for(let i = 0; i < str.length && result; i++) {
+        for(let j = 0; j < letters.length && result; j++) {
+            if(str[i] == letters[j])
+                result = false;
+        }
+    }
+    
+    return result;
+}
+```
+
+Substitute spaces with `%20`.
+```js
+function substituteSpaces(string) {
+    let newString = '';
+    let lastChar = null;
+    
+    for(let c of string) {
+        let substituteSymbol = lastChar == ' ' ? '':'%20';
+        newString += c == ' ' ? substituteSymbol : c;
+            
+        lastChar = c;
+    }
+    
+    return newString;
+}
+```
+
+Check that whether a string is a randomized polindrome.
+```js
+function checkForPolindrome(string) {
+    let table = {};
+    let numberOfOddNumbers = 0;
+    
+    for(let c of string) {
+        if(!table[c])
+            table[c] = 1;
+        else 
+            table[c]++
+    }
+    
+    for(let c in table) {
+        if(table[c] % 2 > 0)
+            numberOfOddNumbers++;
+    }
+    
+    return numberOfOddNumbers < 2;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
