@@ -24,17 +24,33 @@ x1 and x2 and y1 and y2, multiply them by the percent you need and add resulting
 values to x1 and y2 respectively.
 
 # 3. Lines
-<!-- p18 (14) -->
+Steepness is measured by a number called a `slope`
+slope m = y2 - y1 / x2 - x1
 
+## Point-slope equasion
+`y - n1 / x - n2 = m`, where m is slope and n1 and n2 are constants.
 
+## Slope-intercept equasion
+`y = mx + b`, where b is a constant
 
+## Parallel lines
+Parallel lines have the same slope.
 
+## Perpendicular lines
+Lines are perpendicular if the product of their slopes is -1.
+m1 * m2 = -1 => `m1 = - 1 / m2`
 
+# 4. Circles
+R = sqrt((x-a)^2 + (y-b)^2)     => `R^2 = (x-a)^2 + (y-b)^2`
+where (a,b) is the coordinate of the center.
 
+## Exercise
 
+x^2 + y^2 + 8x − 6y + 21 = 0      => 
+(x + 4)^2 + (y - 3)^2 - 4 = 0  => r = 2
 
-
-
+# 5. Equasions and their graphs
+<!-- p33 -->
 
 
 
