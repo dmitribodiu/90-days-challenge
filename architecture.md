@@ -263,9 +263,206 @@ However, it is not well suited for traditional
 large-scale relational database applications with large amounts
 of operational data.
 
+# ■■■ Day 7
+# Righting software >>>>>
+# Intro
+In general design is not time-consuming. If you allocate too much time
+for design you risk to add to design things that add nothing but complexity to the design.
+Limiting the design time forces you to produce `good-enough` design.
 
+## Eliminating analysis paralysis
+1. Design decision `trees`
+    Each leaf should be a consistent, distinct and valid solution for a requirement.
+    
+    When you try to make a new desision about architecture from scratch you
+    do something like `bubble sort` which is highly inefficient because it
+    doesn't account for previous desisions.
+2. Software system design decision tree
+    Only after you have designed the system there's a point in designing a project
+    to build that system.
 
+    One of the most valuable techniques to decrease the size of a decision tree
+    is the application of `constraints`. If you don't have constraints you have
+    too many options which is bad (you will spend a lot of time too choose)
+    With enough amount of constraints you don't need to design anything, it is what it 
+    is.
+    
+> The clean canvas is the words design problem. (no constraints)
 
+# System Design <<<
+# Desomposition
+While designing the system is quick and inexpensive compared with building the system,
+it is critical to get the architecture right.
+
+The correct decomposition is critical. A wrong decomposition means wrong architecture.
+In modern systems `services` are the most granular unit of the architecture.
+However, the technology used to implement the components and their details
+are detailed design aspects, not system decomposition. 
+
+## Avoid functional decomposition
+Functional decomposition decomposes a system into its building
+blocks based on the functionality of the system. (Like creating a distinct service
+for every operation you need to perform e.g : billing, shipping, checkout)
+`Why avoid?`
+1. It couples services to the requirements, any change in functionality imposes a change 
+    on a service. Functional decomposition precludes reuse
+    (you won't be able to use this service in another system)
+    and leads to overly compolex systems
+    (if you choose to create a single service match-all)
+
+    Functional decomposition, therefore, tends to make services either too big and too few
+    or too small and too many. You often see both afflictions in the same system.
+
+2. Clients bloat and coupling
+    Functional decomposition often leads to flattening of the system hierarchy.
+    Since each service serves specific functionality, someone has to combine these
+    discrete functionalities into a required behaviour. That someone is often the client.
+
+    By bloating the client with the orchestration logic,
+    you pollute the client code with the business logic of sequencing, ordering,
+    error compensation, and duration of the calls to the services. Which prevents
+    you from ability to `evolve` client and services `independently`.
+    Ultimately, the client is no longer the client—it has become the system.
+    
+    If there are multiple clients you are destined to duplicate that orchestration 
+    logic on all clients making maintenance of all those clients wasteful and expensive.
+    As the functionality changes, you now are forced to keep up with that change across
+    multiple clients, since all of them will be affected.
+
+3. Multiple points of entry
+    Another problem of functional decomposition is that it requires 
+    multiple points of entry to the system. The clients need to enter the system 
+    in three places: once for the A, then for the B, then for the C service.
+    When you will need to change any of these aspects you will need to change it 
+    in multiple places across services and clients.
+
+4. Services bloating and coupling
+    You can think of letting services call one another instead of multiple points
+    of entry for a client. This way you leave only one way of entry for a client 
+    which might seem much better.
+    The `problem` now is that the functional services are coupled to each
+    other and to the `order` in which every service calls each other.
+
+    When you let services know about one another and about order
+    in which they should be invoked you couple them so tightly that 
+    they become on big fused mess of a service.
+    
+## Reflecting on functional decomposition
+Functional decomposition seems like the perfect way to design a system.
+No wonder why so many systems are designed this way.
+At all costs, you must `resist the temptations` of functional decomposition.
+
+> Nature of the U niverse
+    Functional desomposition is ineffective because it's so simple: just 
+    divide the system into requirements and you are done. You can't make a good 
+    architecture without breaking a sweat.
+
+Functional decomposition has it's place when trying to figure out requirements 
+from the customer. However there should `never` be direct mapping between the
+requirements and the design.
+    
+## Avoid domain decomposition
+Domain decomposition is decomposing a system into building blocks
+based on the business domains. The reason domain decomposition does not work is that
+it is still functional decomposition in disguise.
+
+1. Building a Domain house
+    Imagine completely finishing building a single room, you have one room
+    with electricity, water and apartment repair. Then you go to your customer
+    and show him "release 1.0". Then to build another room you need to `completely`
+    rebuild the first one. 
+    
+    That's how domain decomposition works in pracitce. You can't just build single 
+    domain components by themselves without proper architecture. Because if you 
+    do, every time you introduce a new component you will likely need to rewrite 
+    all other components which increases complexity to `!n`.
+
+## Faulty motivation
+The motivation for functional or domain decomposition is that
+the business or the customer wants its feature as soon as possible.
+The problem is that `you can never deploy a single feature in isolation`.
+
+## Testability and design
+A crucial flaw of both functional and domain decomposition has to do with testing. 
+With such designs, the level of coupling and complexity is so high
+that the only kind of testing developers can do is unit testing. 
+The sad reality is that unit testing is borderline `useless`. While unit testing is
+an essential part of testing, it cannot really test a `system`.
+
+even if the complex system is at a perfect state of impeccable quality,
+changing a single, unit-tested component could break
+some other unit relying on an old behavior.
+
+The only way to verify change is `full regression testing` of the system
+But functional decomposition makes the entire system untestable in terms of 
+regression testing (because with so many units it's hard to create a complete list 
+of regression tests), and untestable systems are always rife with defects.
+
+## Physical versus software systems
+The main difference between physical and software systems is that when person
+builds a physical thing it't obvious to everyone whether the thing is well architected
+or not. But with software it's not so obvious. Bad architechture is being maintained
+by less experienced engineers, slowing down their growth and in some cases ruining their
+careers. 
+
+## Example: Functional Trading System
+If you design components so that client has to orchestrate them, every change in
+any component will likely affect the client as well. Whatever change you may want to 
+make will cause substantional rewrite of the existing system.
+
+## Volatility-based decomposition
+`Decompose based on volatility`.
+
+Volatility-based decomposition identifies `areas of potential change` and
+encapsulates those into services or system building blocks. You then implement
+the required behavior as the interaction between the encapsulated areas of volatility
+
+With volatility-based decomposition you can think of your system as of series of vaults
+that contain granates (changes) than may potentially cause problems to your app.
+
+With functional decomposition, your building blocks represent
+areas of functionality, not volatility so when change happens it may affect multiple
+components in your architecture. Functional decomposition doesn't account for `changes`.
+
+## Decomposition, maintenance and development
+As explained previously, functional decomposition drastically increases the
+system’s complexity. Functional decomposition also makes maintenance a `nightmare`.
+It makes maintaining the code labor intensive, error prone, and very time-consuming. 
+Even during development it may easily break your deadline because changes are often made
+even while development.
+
+## Universal principle
+The merits of volatility-based decomposition are not specific to software systems. 
+A functional decomposition of your own body would have components for every
+task you are required to do, from driving to programming to presenting,
+yet your body does not have any such components. 
+
+> Decomposing based on `volatility` is the essence of system design.
+
+All well-designed systems, software and physical systems alike,
+encapsulate their volatility inside the system’s building blocks.
+
+## Volatility-Based Decomposition and Testing
+Volatility-based decomposition lends well to `regression` testing as well as unit testing.
+The reduction in the number of components, the reduction in the size of components,
+and the simplification of the interactions between components all drastically
+reduce the complexity of the system. 
+
+## The Volatility Challenge
+The main challenges in performing a volatility-based decomposition have to do with
++ time
++ communication
++ perception.
+
+The outside world (be it customers, management, or marketing) always presents
+you with requirements in terms of functionality: “The system should do this and that.”
+Consequently, `volatility-based decomposition takes longer`
+compared with functional decomposition
+
+The whole purpose of requirements analysis is to `identify the areas of volatility`
+and this analysis requires effort and sweat.
+
+## The 2% problem
 
 
 
