@@ -52,6 +52,88 @@ x^2 + y^2 + 8x − 6y + 21 = 0      =>
 # 5. Equasions and their graphs
 <!-- p33 -->
 
+# ■■■ Mathematics for machine learning
+# ■ Part 1 - Mathematics foundations
+# Introduction and motivation
+There are three concepts that are at the core of machine learning:
+data, a model, and learning. A model is said to learn from data if its performance
+on a given task improves after the data is taken into account.
+The goal is to find good models that generalize well to yet unseen data.
+
+`Learning` can be understood as a way to automatically find patterns
+and structure in data by optimizing the parameters of the model.
+
+## Finding words for intuitions
+While not all data is numerical, it is often useful to consider data in
+a number format. 
+
+## Four ways to read this book
+1. Bottom - up
+    (may be boring but you know what's going on at every stage)
+2. Top - down
+    (may be hard to understand at times what is going on, 
+    but interest to the field growth)
+3. Left - right top - down
+4. Left - right bottom - up
+    Machine learning topics:
+        1. regression
+            math: 
+                vercor calculus
+                linear algebra
+        2. Dimentionality reduction & Density estimation
+            math:
+                Probability and distribution
+                analityc geometry
+        3. Classification
+            math:
+                Optimization
+                Matrix decomposition
+
+We often consider data to be noisy observations of some true underlying signal.
+
+# Linear algebra
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
