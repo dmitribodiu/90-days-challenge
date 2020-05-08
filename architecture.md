@@ -290,7 +290,7 @@ Limiting the design time forces you to produce `good-enough` design.
 > The clean canvas is the words design problem. (no constraints)
 
 # System Design <<<
-# Desomposition
+# ■ Desomposition
 While designing the system is quick and inexpensive compared with building the system,
 it is critical to get the architecture right.
 
@@ -442,6 +442,7 @@ yet your body does not have any such components.
 All well-designed systems, software and physical systems alike,
 encapsulate their volatility inside the system’s building blocks.
 
+# ■■■ Day 8
 ## Volatility-Based Decomposition and Testing
 Volatility-based decomposition lends well to `regression` testing as well as unit testing.
 The reduction in the number of components, the reduction in the size of components,
@@ -462,7 +463,446 @@ compared with functional decomposition
 The whole purpose of requirements analysis is to `identify the areas of volatility`
 and this analysis requires effort and sweat.
 
-## The 2% problem
+1. The 2% problem
+    If you sick 1 week a year, that's about 2% of your time.
+    Would you go to doctor or try to heal yourself? The moral is if you only have 
+    to spend 2% of your time at any complex task you will never be good at it.
+    Architects shoulf find a way to get more time to architect systems.
+
+2. The Dunning-Kruger effect
+    If you are unskilled in something, you never assume it is
+    more complex than it is, you assume it is less!
+
+## Identifying volatility
+1. Volatile vs variable
+    Variability can be handled easily using conditional logic.
+    Volatility has a potential to change your whole system logic.
+
+2. Axes of volatility
+    Finding areas of volatility is a process of discovery that takes place
+    during requirements analysis and interviews with the project stakeholders.
+
+    In any business, there are only two ways (axes) your system could face change: 
+        + at the same customer over time. 
+        + at the same time over customers
+    If something doesn't map to this axes you should not encapsulate this at all
+    as it goes back to functional decomposition.
+
+3. Design factoring
+    Often, the act of looking for areas of volatility using the axes of
+    volatility is an iterative process.
+
+4. Independence of the axes
+    Two axes should be independent.
+    
+## Example: Volatility-based decomposition of a house
+You may shose these areas of volatility for the first axes: 
+    appliances, occupants, furniture, appearance.
+And these for the second axes:
+    structure, neighbours, location
+    
+The assignment of a volatility to one of the axes is not an absolute
+exclusion but more one of disproportional `probability`.
+
+The axes of volatility are a great starting point,
+but it is not the only tool to bring to bear on the problem.
+
+## Solutions masquerading as requirements
+E.g when customer says that he wants a kitchen, what he really does is providing
+you with a solution to feeding people in the house.
+
+With volatility-based decomposition, during requirements analysis,
+you should identify the volatility in feeding the occupants and provide for it
+(what's volatile here is the way you provide the food to occupants)
+
+The volatility of feeding is encapsulated within the `Feeding`,
+component and as the feeding options change, your design does not.
+
+Since most requirements specifications are chock-full of solutions masquerading
+as requirements, functional decomposition absolutely maximizes your pain.
+You will forever be chasing the ever-evolving solutions, never recognizing
+the true underlying requirements.
+
+## Volatility exmaples
++ user volatility
++ Client app volatility
+    web/mobile
++ security volatility
+    different methods of authentication
++ notification volatility
+    email/phone/browser
++ storage volatility
+    local db / cloud 
+    (local db is actually a disguised solution to a requirement of storing data)
++ connection and synchronization volatility
++ locale and regulations volatility
++ input volatility
+
+Is vital to call out the areas of volatility and map them
+in your decomposition as early as possible
+
+1. System decomposition
+    Once you have settled on the areas of `volatility`,
+    you need to `encapsulate` them in components of the architecture
+    The transition from the list of volatile areas to components of
+    the architecture is hardly ever one to one.
+    
+    With design, always start with the `simple and easy decisions`.
+    Those decisions `constrain` the system, making subsequent decisions easier
+
+## Volatility And The Business
+While you must encapsulate the volatile areas, not everything that could change
+should be encapsulated. During system decomposition, you must identify both
+the areas of volatility to encapsulate and those not to encapsulate.
+The first indicator is that the possible change is `very rare`.
+The second indicator is that any attempt to encapsulate the change can only be done poorly
+
+A change to the `nature` of the business permits you to kill
+the old system and start from scratch. You can do it because it happens very rare and
+in case it doesn't happen you will save a lot of money that you would otherwise
+spend on expensive encapsulating details.
+
+1. Speculative design
+    Speculative design is a variation on trying to encapsulate the nature of the business
+    When taken to the extreme, you run the risk of trying to encapsulate anything and
+    everywhere, you get some kind of paranoia : "everything can change".
+    Your design will have numerous building blocks, a `clear sign of a bad design`.
+
+## Volatility and longevity
+The longer the company or the application has been doing something the same way,
+the higher the likelihood the company will keep doing it the same way.
+
+## The importance of practicing
+The best way of going about mastering volatility-based decomposition is to `practice`.
++ practice on a system that you are familiar with
++ examine your own `past` projects
++ look at your `current` project, it may not be too late to save it
++ look at physical things made by engineers, how do they incapsulate volatility
+    (e.g : bicycle, car, smart home, TV, smartphones)
+
+Then `do it again and do it some more`.
+You better fail in your own projects than on live projects.
+
+# ■ Structure
+Fortunately, systems share common areas of volatility.
+
+## Use cases and requirements
+Before diving into architecture, consider requirements.
+Requirements should capture the `required behavior` rather than the required functionality
+You should specify how the system is required to operate as opposed to what it should do
+
+1. Required behaviours
+    A use case is an expression of required behavior—that is,
+    how the system is required to go about accomplishing some work
+    and adding value to the business. As such, a use case is a particular
+    `sequence of activities` in the system.
+
+    You can capture use cases either textually or graphically.
+    But because human brain is better prepared for visual information
+    the best way of capturing a use case is `graphically`, with a diagram.
+    Humans perform image processing astonishingly quickly
+
+    Graphical use cases, however, can be very labor-intensive to produce,
+    especially in large numbers. For the most part you shold represent graphically
+    usecases that contain "if" in them. Because nested if's are hard to imagine
+    without a graphical representation.
+    
+    1. Activity diagrams
+        You should prefer activity diagrams for graphical representation of use cases.
+        primarily because they can capture `time-critical` aspects of behavior 
+        which allows you to easily represent asynchronous behaviour.
+
+## Layered approach
+Software systems are typically designed in layers. Layers allow you to layer encapsulation
+Each layer encapsulates its own volatilities from the layers above
+and the volatilities in the layers below. Services inside the layers encapsulate
+volatility from each other. 
+
+1. Using services
+    The preferred way of crossing layers is by calling `services`. 
+    When you use services you gain the following benefits:
+        1. Scalability
+        2. Security
+            All service-oriented platforms treat security as a first-class aspect.
+        3. Throughput and availability
+            Services can accept calls over queues, allowing you to handle a very
+            large volume of messages by simply `queuing` up the excess load.
+        4. Responsiveness
+            Clients and services can use some reliable messaging protocol
+            to guarantee delivery, handle network connectivity issues,
+            and even order the calls.
+        5. Consistency
+        6. Synchronization
+
+## Typical layers
+You should considere these four main layers:
+    1. Client
+    2. Business logic
+    3. Resource access
+    4. Resource
+    (5. Utility `bar`, with helper mehtods like logging, security, message bus and so on)
+
+1. Client layer 
+    All clients use the same entry point to the system.
+    The client layer encapsulates the potential volatility in Clients
+    and allows to develop each client separately. (each client doesn't affect any other)
+
+2. Business logic layer
+    The business logic layer encapsulates the volatility in the system’s business logic
+    which is the volatility of use cases. A particular use case can change in only
+    two ways: 
+        + The sequence itself changes 
+        + The activities within the use case change
+        
+    `Both` the sequence and the activities are volatile, and these volatilities 
+    should be encapsulated in `specific components`: 
+        + **Managers** 
+            Should encapsulate vol. in the sequence
+        + **Engines**.
+            Encapsulate volatility in activity.
+    Engines may be shared between Managers because you could perform an activity
+    in one use case on behalf of one Manager and then perform the same activity
+    for another Manager in a separate use case.
+    You should design Engines with `reuse` in mind.
+    
+    However, if two Managers use two different Engines to perform the same activity,
+    you likely have functional decomposition on your hands
+
+3. Resource access layer
+    encapsulates the volatility in accessing a resource. Over time, you may want
+    to change the way you access the database, so that change or the volatility
+    involved should be encapsulated. You also have to not only encapsulate the way
+    you access a resource, you also have to encapsulate the vol. in resource itself
+    which can be a local, cloud, sql, nosql database.
+    
+    you must avoid operations such as Open(), Close(), Seek(), Read(), and Write() 
+    because these operations are specific to certain kinds of resource access.
+    A well-designed ResourceAccess component exposes in its contract
+    the `atomic business verbs` around a resource.
+
+    1. Use atomic business verbs
+        Atomic business verbs are low level `activities` that can not be expressed 
+        by any other activity in the system. E.g in bank may have transfer high level
+        activity that comprises of two low level activities: debit and credit. These
+        are two atomic business verbs. Altho they are atomic for business they may need
+        multiple steps to perform in your system.
+        
+        Resource access layer should `only` expose these atomic business verbs to the 
+        higher layer.
+
+    2. Resource access reuse
+        Resource access services can and should be shared between managers and engines
+        if you have trouble sharing the same resource access endpoint for the same
+        purpose between managers and engines you have probably failed to identify
+        an atomic business verb.
+
+4. Resource layer
+    contains the actual physical `Resources` on which the system relies
+    (such as database or message queue)
+    Often, the Resource is a whole system in its own right,
+    but to your system it appears as just a Resource.
+
+5. Utilities bar
+    contains Utility services, which are some form of common infrastructure
+    that nearly all systems require to operate.
+    
+    Utilities require `different rules` compared with the other components.
+
+## Classification guidelines
+1. What's in a name
+    Service `names` as well as diagrams are important in communicating your design
+    to others. You should follow the following conventions for naming services:
+        + names of services should be two-part compound words in PascalCase.
+        + suffix of the service is always the service type (manager/engine/access)
+        + prefix 
+            + for managers - a noun associated with encapsulated volatility
+            + for engines - a noun describing encapsulated activity
+            + for resource access - noun associated with a resource
+        + gerunds should only be used in engines (because they describe activity)
+        + atomic business verbs should not be used in prefix for a service name.
+            they should only appeare in opeartion names in resource access layer.
+
+    e.g : 
+        + BillingManager 
+            bad, managers should not contain gerunds, they don't describe actions
+            they should describe orchestration of actions.
+        + CalculatingEngine
+            good
+        + AccountEngine
+            bad, not clear what activity it incapsulates.
+
+2. The four questions
+    When you are not sure about where to start the design, you can start by answering
+    four questions about the system:
+        1. who
+        2. what
+        3. how
+        4. where
+
+3. Managers to engines ration
+    If your design contains a large number of Engines, you may have inadvertently
+    done a functional decomposition. Because there is naturally not that many 
+    atomic operations in any business.
+     
+    Typically the should be more managers than engines and they typically
+    maintain the `golden ratio` (managers = engines * 1.61). But if you have
+    too many manabers (6+) it may be a sign of a bad design. The large number of Managers
+    strongly indicates you have done a functional or domain decomposition.
+
+4. Key observations
+    1. Volatility decreses top-down
+        In a well-designed system, volatility should decrease top-down across the layers.
+        Clients are very volatile. Managers do change, but not as much as their Clients.
+        Managers change when the use cases change.
+        Engines are less volatile than Managers.For an Engine to change, your business
+        must change the way it is performing some activity.
+        Resources are the least volatile components.
+        
+        A design in which the volatility decreases down the layers is extremely `valuable`
+    
+    2. Reuse `increases` top-dows
+        Managers are reusable because you can use the same Manager and use cases
+        from multiple Clients. Engines are even more reusable than Managers because
+        the same Engine could be called by multiple Managers.
+    
+    3. Proper managers
+        If the Manager merely `orchestrates` the Engines and the ResourceAccess,
+        encapsulating the sequence volatility, you have a great Manager service.
+        
+## Subsytems and services
+A cohesive interaction between the Manager, Engines, and ResourceAccess
+may constitute a single logical service to external consumers. 
+You can view such a set of interacting services as a logical `subsystem`. 
+(which will still consist of 4 layers, divided `vertically`,
+where each vertical slice implements a corresponding set of use cases.)
+
+`Avoid over-partitioning` your system into subsystems.
+Most systems should have only a handful of subsystems.
+You should limit the number of Managers per subsystem to `three`. 
+
+1. Incremental construction
+    In case of building a large-scale application it makes sense to develop
+    and deliver the system in stages, one `vertical` slice at a time,
+    as opposed to providing a single release at the end of the project.
+
+    With both small and large systems, the right approach to construction
+    is another `universal principle`:
+
+    **Design iteratively, build incrementally**
+
+    Meaning design can change because you don't yet know the final result.
+    But when you build you need to know what will be the end result of development.
+    There are `two reasons` why you can build only incrementally, and not iteratively:
+        1. Building iteratively is horrendously wasteful, you can just use a rubber
+            gum to remove unwated pieces as you could do at the design stage.
+        2. Intermediate iterations don't have any business value.
+    
+    Building iteratively vs building incrementally
+        + iteratively - build 4 floor house but with poor quality, bad walls, bad floors 
+            and so on. Then with time imporve all aspects at the same time but slowly.
+        + incrementally - build 1 floor properly and then go to the second one 
+            and do it properly.
+        
+    - Extensibility
+        The vertical slices of the system also enable you to accommodate extensibility. 
+        If you have designed correctly for extensibility, you can mostly
+        leave existing things alone and extend the system as a whole by adding more 
+        of "vertical slices".
+        
+2. About microservices
+    There are no microservices—only services. 
+    1. History and concerns
+        In common usage, microservices correspond to domains or subsystems—that is,
+        to the vertical slices.
+        There are three problems with this idea as practiced today:
+            1. Implied constraint on the number of services 
+            2. The second problem is the widespread use of functional
+                decomposition in microservice design by the industry at large.
+                Maintainable, reusable, extensible services are possible
+                just not in this way.
+            3. The third problem relates to communication protocols.
+                Most systems use REST. However REST was designed for publicly
+                facing services, as the gateway to systems.  As a general principle,
+                in any well-designed system you should never use the same communication
+                mechanism both internally and externally.
+            
+                The protocol used for external services is typically low bandwidth,
+                slow, expensive, and error prone. HTTP may be perfect for external
+                services, but this protocol should be avoided between internal
+                services where the communication and the services must be impeccable.
+                
+                Internal services such as Engines and ResourceAccess should rely on fast,
+                reliable, high-performance communication channels (like message queue)
+
+## Open and closed architecutres
+1. Open architecture
+    In an open architecture, any component can call any other component
+    regardless of the layer in which the components reside. It gives you greater 
+    flexibility at a cost of high coupling.
+    
+    Calling sideways also creates additional coupling. When using open architecture,
+    there is hardly any benefit of having architectural layers in the first place.
+    In software engineering, trading encapsulation for flexibility is a bad trade.
+
+2. Closed architecture
+    In a closed architecture, you strive to maximize the benefits of the
+    layers by disallowing calling up between layers and sideways within layers.
+
+3. Semi-closed
+    Allows to call multiple levels down. 
+    This architecture is justified in two cases: 1. You need maximum performance at 
+    all costs. 2. Layers hardly ever change.
+    
+    You should avoid this architecture as in most cases it can't be justified.
+
+4. Relaxing the rules
+    For real-life business systems, the best choice is always a closed architecture. 
+    
+    1. Calling utilities
+        In a closed architecture, Utilities pose a challenge. If you call them a 
+        service, not all layers will have an access to it. But specifically for 
+        utilities you should relax the closed architecture rule and allow any service
+        to call any utility.
+        
+        You may see attempts by some developers to abuse the utilities bar by
+        christening as a Utility any component they wish to short-circuit across
+        all layers. Not all components can reside in the utilities bar.
+        
+        To qualify as a Utility, the component must pass a simple litmus `test`:
+        Can it be used in any other complex system?
+
+    2. Calling Resource access by business logic
+        Managers and Engines can both call ResourceAccess services without
+        violating the closed architecture
+    3. Queued manager to manager
+        Manager can queue a call to another manager, (it's not a sideways call)
+    4. Opening the architecture
+        Even with the best set of guidelines, time and again you
+        will find yourself trying to open the architecture.
+        
+        Instead of violating the architecture you should find a better way to 
+        do the same thing `preserving the architecture`. There's always such a way.
+        E.g you could harness message queuing or utilities bar.
+
+5. Design dont's
+    **DON'T DO THESE THINGS**
+    1. Clients can only call managers.
+        Otherwise you pollute clients with business logic which will render further
+        development hell.
+    3. Managers don't queue calls to more than one manager in the same use case.
+        Use event listening utility instead.
+    4. Only managers can queue or listen to events
+        Other services should not care about events. It's not their business.
+    6. No service should can call it's sibling.
+
+6. Strive for symmetry
+    The symmetry in software systems manifests in repeated call patterns across use cases.
+    Symmetry is so fundamental for good design that you should generally see the same call
+    patterns across Managers.
+
+
+
+
 
 
 
