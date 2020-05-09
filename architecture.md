@@ -900,12 +900,155 @@ You should limit the number of Managers per subsystem to `three`.
     Symmetry is so fundamental for good design that you should generally see the same call
     patterns across Managers.
 
+# ■■■ Day 9
+# ■ Composition
+How do you know the composition of all the components at run-time
+adequately satisfies all the requirements? You can and must be able to produce a
+viable design and validate it in a repeatable manner.
 
+## Requirements and changes
+Requirements change.
 
+1. Resenting change
+    Developers resent changes because when the requirements change,
+    their design also must change. In any system, a change to the design is very painful.
 
+2. Design prime directive
+    The solution for this dissonance of resenting the changes is so simple
+    that it has eluded almost everyone for their entire career:
+    **Never design against the requirements**
+    Any attempt at designing against the requirements will always guarantee pain.
 
+3. Futility of requirements
+    the correct way of capturing the requirements is in the form of use cases:
+    the required set of behaviors of the system.
+    
+    You can't collect a complete and correct list of requirements upfront. requirements
+    will change during development.
+    
+## Composable design
+The goal of any system design is to be able to satisfy `all use cases`.
+The word all in the previous sentence really means all:
++ present
++ future
++ known
++ unknown 
+Nothing less will do. If you fail to pass that bar, then at some
+point in the future, when the requirements change, your design will have to change which
+is a `sign of a bad design`.
 
+1. Core use cases
+    The core use cases represent the essence of the business of the system.
+    Most systems have as few as two or three core use cases,
+    and the number seldom exceeds six.
+    1. Finding the core use cases
+        A  core use case will almost always be some kind of an abstraction of other use cases,
+        and it may even require a new term or name to differentiate it from the rest. 
+        The whole point of requirements analysis is to recognize the `core` use cases
+    
+2. The Architect's mission
+    Your mission as an architect is to identify the smallest set of components that
+    you can put together to satisfy all the core use cases.
+    A composable design does not aim to satisfy any use case in particular.
+    1. Architecture validation
+        Once you can produce an interaction between your services for each
+        `core` use case, you have produced a `valid` design. 
 
+    2. Smallest set
+        Remember: Your mission as the architect is to identify not just a set
+        of components that you can put together to satisfy all the core use case,
+        but the `smallest` set of components.
+
+        The smallest set of services required in a typical software system
+        contains 10 services in order of magnitude (12, 20, 15, 25)
+        
+        Even in a large system you are commonly looking at two to five Managers,
+        two to three Engines, three to eight ResourceAccess and Resources,
+        and a half-dozen Utilities.
+        
+    3. Duration of design effort
+        You may spend weeks or months trying to identify the core use
+        cases and the areas of volatility. However, that is not design—that is
+        requirements gathering and requirements analysis, which may be very
+        time-consuming indeed. Design is not time-consuming if you know what you are doing
+        You can design in a matter of days, and with practice even faster.
+
+## There's no feature
+> Features are always and everywhere `aspects of integration`, not implementation.
+
+Integrating all of automobile parts yields the feature - transporting you from point A to 
+point B. You can process text on your laptop but is there any box in
+the architecture of the laptop called Word Processing?
+
+The laptop provides the feature of word processing by integrating the keyboard,
+the screen, the hard drive, the bus, the CPU, and the memory.
+
+You never should implement feature, you have to impolement everything that combined
+will provide the feature and much more. This will make your design solid.
+
+## Handling change
+Your software system must respond to changes in the requirements and resond to them fast.
+
+The trick to addressing change is not to fight it, postpone it, or punt it altogether.
+The trick is `containerizing its effects`  (volatility based decomosition to the resque)
+
+# ■ System design example
+## System overview
+TradeMe is a system for matching tradesmen(self-employed people)
+to contractors and projects. The contractors need tradesmen on an ad hoc basis.
+The TradeMe system allows tradesmen to sign up, list their skills,
+their general geographic area of availability, and the rate they expect.
+
+1. Legacy system
+    Lack of separation between UI and business logic prevents updating
+    the applications to modern user experience. The legacy system was never designed
+    with security in mind. For that matter, it was never designed at all, but
+    rather grew organically.
+    
+2. Use cases
+    1. Core use case
+        The essence of the system is not to add a tradesman or contractor,
+        to create a project, or to pay a tradesman. Instead, the system’s raison
+        d’être is given in the opening one-sentence definition:
+        "TradeMe is a system for matching tradesmen to contractors and projects"
+        
+        Even though for design validation you need to support just the core use cases,
+        that does not mean you should ignore the other use cases
+    
+    2. Simplifying the use cases
+        Customers rarely ever present the requirements in a useful format,
+        let alone in a way that is conducive to good design. You must always transform,
+        clarify, and consolidate the raw data.
+    
+        You transform the raw use case by subdividing the activity diagram into
+        areas of interactions using "swimlines".
+
+## Business alignment
+architecture does not exist for its own sake.
+The architecture (and the system) must serve the business.
+You must ensure that the `architecture is aligned with the vision`
+that the business has for its future and with the business objectives
+
+1. The vision
+    The vision must drive everything, from architecture to commitments. 
+2. Business objectives
+    After agreeing on the vision (and only then), you can itemize the
+    vision to specific objectives. You should reject all objectives that do
+    not serve the vision. 
+    E.g objective for the TradeMe system:
+        + Quick turnaround for new requirements 
+        + high degree of customization between countries
+        + support full business visibility 
+        + streamline security
+    
+3. Mission statement
+    The mission is not to build features—`the mission is to build components`
+    that will allow for creating any feature now and in the future.
+    
+    **Vision => Objectives => Mission statement => Architecture**
+
+# Fundamentals of software architecture >>>>>
+# Architectural thinking
 
 
 
