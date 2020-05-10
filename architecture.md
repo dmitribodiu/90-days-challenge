@@ -452,8 +452,8 @@ reduce the complexity of the system.
 ## The Volatility Challenge
 The main challenges in performing a volatility-based decomposition have to do with
 + time
++ perception
 + communication
-+ perception.
 
 The outside world (be it customers, management, or marketing) always presents
 you with requirements in terms of functionality: “The system should do this and that.”
@@ -467,7 +467,7 @@ and this analysis requires effort and sweat.
     If you sick 1 week a year, that's about 2% of your time.
     Would you go to doctor or try to heal yourself? The moral is if you only have 
     to spend 2% of your time at any complex task you will never be good at it.
-    Architects shoulf find a way to get more time to architect systems.
+    Architects should find a way to get more time to architect systems.
 
 2. The Dunning-Kruger effect
     If you are unskilled in something, you never assume it is
@@ -485,20 +485,20 @@ and this analysis requires effort and sweat.
     In any business, there are only two ways (axes) your system could face change: 
         + at the same customer over time. 
         + at the same time over customers
-    If something doesn't map to this axes you should not encapsulate this at all
+    If something doesn't map to this axes you should not encapsulate it at all
     as it goes back to functional decomposition.
 
 3. Design factoring
     Often, the act of looking for areas of volatility using the axes of
-    volatility is an iterative process.
+    volatility is an `iterative process`.
 
 4. Independence of the axes
     Two axes should be independent.
     
 ## Example: Volatility-based decomposition of a house
-You may shose these areas of volatility for the first axes: 
+You may chose these areas of volatility for the first axes (same customer over time): 
     appliances, occupants, furniture, appearance.
-And these for the second axes:
+And these for the second axes (same time over customers):
     structure, neighbours, location
     
 The assignment of a volatility to one of the axes is not an absolute
@@ -523,7 +523,7 @@ as requirements, functional decomposition absolutely maximizes your pain.
 You will forever be chasing the ever-evolving solutions, never recognizing
 the true underlying requirements.
 
-## Volatility exmaples
+## Volatility examples
 + user volatility
 + Client app volatility
     web/mobile
@@ -539,7 +539,7 @@ the true underlying requirements.
 + input volatility
 
 Is vital to call out the areas of volatility and map them
-in your decomposition as early as possible
+in your decomposition `as early as possible`
 
 1. System decomposition
     Once you have settled on the areas of `volatility`,
@@ -548,7 +548,7 @@ in your decomposition as early as possible
     the architecture is hardly ever one to one.
     
     With design, always start with the `simple and easy decisions`.
-    Those decisions `constrain` the system, making subsequent decisions easier
+    Those decisions `add constrains` to the system, making subsequent decisions easier.
 
 ## Volatility And The Business
 While you must encapsulate the volatile areas, not everything that could change
@@ -563,7 +563,7 @@ in case it doesn't happen you will save a lot of money that you would otherwise
 spend on expensive encapsulating details.
 
 1. Speculative design
-    Speculative design is a variation on trying to encapsulate the nature of the business
+    Is a variation on trying to encapsulate the `nature` of the business
     When taken to the extreme, you run the risk of trying to encapsulate anything and
     everywhere, you get some kind of paranoia : "everything can change".
     Your design will have numerous building blocks, a `clear sign of a bad design`.
@@ -574,17 +574,17 @@ the higher the likelihood the company will keep doing it the same way.
 
 ## The importance of practicing
 The best way of going about mastering volatility-based decomposition is to `practice`.
-+ practice on a system that you are familiar with
-+ examine your own `past` projects
-+ look at your `current` project, it may not be too late to save it
-+ look at physical things made by engineers, how do they incapsulate volatility
-    (e.g : bicycle, car, smart home, TV, smartphones)
+    + practice on a system that you are familiar with
+    + examine your own `past` projects
+    + look at your `current` project, it may not be too late to save it
+    + look at physical things made by engineers, how do they incapsulate volatility
+        (e.g : bicycle, car, computers, TV, smartphones)
 
 Then `do it again and do it some more`.
 You better fail in your own projects than on live projects.
 
 # ■ Structure
-Fortunately, systems share common areas of volatility.
+Fortunately, all systems share common areas of volatility.
 
 ## Use cases and requirements
 Before diving into architecture, consider requirements.
@@ -613,7 +613,7 @@ You should specify how the system is required to operate as opposed to what it s
         which allows you to easily represent asynchronous behaviour.
 
 ## Layered approach
-Software systems are typically designed in layers. Layers allow you to layer encapsulation
+Software systems are typically designed in layers.
 Each layer encapsulates its own volatilities from the layers above
 and the volatilities in the layers below. Services inside the layers encapsulate
 volatility from each other. 
@@ -635,7 +635,7 @@ volatility from each other.
         6. Synchronization
 
 ## Typical layers
-You should considere these four main layers:
+You should consider these four main layers:
     1. Client
     2. Business logic
     3. Resource access
@@ -1047,8 +1047,296 @@ that the business has for its future and with the business objectives
     
     **Vision => Objectives => Mission statement => Architecture**
 
-# Fundamentals of software architecture >>>>>
-# Architectural thinking
+# ■■■ Day 10
+# The Design of Web Apis >>>>>
+# Designing predictable API
+An API can be predictable because it shares similarities that other
+users have encountered before. 
+
+## Being consistent
+An inconsistent design introduces variations or contradictions that make
+an interface harder to understand and use.
+
+Attaining predictability of a design can be done with
+a little bit of discipline by ensuring
+`consistency of data and goals` inside and across all APIs, using and meeting prescribed
+standards, and by shamelessly copying others.
+
+But if consistency can lead to an awesome API design,
+it must `never` be used at the expense of `usability`.
+
+1. Designing consistent data.
+    designing consistent APIs starts with choosing consistent `names`
+    - inconsistent
+        + accountNumber
+        + source
+        
+        + balanceDate
+        + dateOfCreation
+        + executionDay
+    - consistent
+        + accountNumber
+        + sourceAccountNumber
+        
+        + balanceDate
+        + creationDate
+        + executionDate
+    When choosing names for various representations of the `same concept`,
+    take care to use similar ones.
+    Using a `generic suffix` (like balance"Date") or prefix in a name to provide
+    additional information about the nature of what is named is a `good` practice.
+    
+    But even correctly named, a property can still be subject to inconsistency
+    if using `inconsistent type` format.
+    (e.g different date formats for variables with Date suffix above)
+    Choose a `naming convention` and follow it strictly.
+    
+    Each level of a URL should always have the same meaning
+    Create `consistent URLs`:
+        - inconsistent
+            + accounts/:id
+            + transfers/delayed/:id     (delayed part is inconsistent)
+        - consistent
+            + accounts/:id
+            + delayed-transfers/:id
+
+    Create consistent `return values`:
+        - inconsistent
+            get accounts/
+                { "items": [{"accountNumber": "0001234567"}] }
+            get transfers/
+                [{"id": "00135135"}]            <= different `nesting` and identificator
+        
+        - consistent
+            get accounts/ - [{"id": "0001234567"}]
+            get transfers/ - [{"id": "0005232235"}]
+            
+        
+    Basically, `every bit` of an API’s data `must be consistent`.
+
+2. Designing consistent goals
+    What’s the problem with the `readAccount` and `getUserInformation` goals? These two
+    goal names are inconsistent. Data must be consistent, and so must a goal’s inputs.
+    The same goes for the feedback returned in case of success or error return values.
+    When designing APIs, you must also take care to create `consistent goal flows`.
+    So every single aspect of the interface contract, every behavior of an API,
+    must be consistent.
+    
+3. The four levels of consistentcy
+    1. Consisntecy within API
+    2. Consistency across organization APIs
+    3. Consistency with the domain of an API
+        For marine navigation domain you would not use kilometers but 
+        nautical miles instead. For language processing you would use `token` instead
+        of word.
+    4. Consistency with the rest of the world
+        (see 4 - copying others)
+
+4. Copying others: Following common practices and meeting standards
+    Like any real-world device, an API can take advantage of standards
+    (in a broad sense) to be easier to understand
+    (almost all real world devices share simillar play button design)
+    
+    REST APIs can be consistent by simply applying the HTTP protocol’s rules to the
+    letter (by using `standartized response codes`)
+    
+    HTTP protocol provide a consistent framework for REST APIs,
+    making them totally predictable (standartized codes and verbs)
+    
+    Even if not everything is standardized in the API design world 
+    (how to create url's properly),
+    there are common practices that are very close to being standards.
+
+5. Being consistent is hard and must be done wisely
+    You must formally define your design with rules in a document called the
+    “API Design Guidelines”. Even if you are the only API designer in the team
+    it's very helpful becaus `human tend to forget things`
+    
+    Once you have your API design cheat sheet and your API directory
+    you can concentrate on solving real problems and not waste your time
+    reinventing the wheel you created a few months ago.
+    
+    Consistency is great but don't sacrifice usability for consistency, 
+    you can't always be consistent.
+
+## Being adaptable
+Managing different representations of the same concept and providing a partial,
+selected, or adapted representations of some content is not reserved for books;
+we can do that with APIs too.
+
+1. Providing and accepting different formats
+    For some array you could provice json view as well as CSV.
+    But if a goal can return a list in various formats, how can
+    consumers tell which format is needed? You could take advantage of 
+    `content negotiation` using `Accept: FORMAT` header.
+
+    Content negotiation is an HTTP mechanism that allows the exchange
+    of different representations of a single resource.
+    When an HTTP server responds to a request, it must indicate the media type
+    of the returned document.
+    This is done in the `Content-type` response header.
+    When client sends data within request body, it can also use Content-type
+    header to indicate the type of data in the body of the request.
+    
+2. Internationalizing and localizing
+    Content negotiation not only applies to data formats, but also to languages.
+    Consumers and server can use `Accept-Language` and `Content-Language` headers
+    to indicate which language they are speaking and serving in request/response.
+    
+    `internationalization` means being able to understand
+    that an Accept-Language: fr-FR header means that the consumer wants a localized
+    response using French language and conventions(e.g measure of distance).
+    
+    On the server side, it means that if the requested localization is supported,
+    the content will be returned localized along with a Content-Language: fr-FR header.
+    If it’s not supported, the server returns a 406 Not Acceptable status code.
+    `localization` means being actually able to handle some locale.
+    
+    If you don’t think you need `i18n` and `l10n`, you can start without
+    internationalization features and update your API later if needed.
+
+3. Filtering, paginating, and sorting
+    To get specific pagin in an array of objects you can utilize `Range` http header.
+    (e.g : Range: items=10-19)
+    You can use any string value instead of "items" but remember about consistency,
+    better choose a name for a single item and stick to it.
+    
+`Filtering` based on some numeric value
+I.e you want to list cars with mileage between 15,000 and 30,000 miles.
+You can do it this way: 
+    1. add range header specifying 15000 - 30000
+    2. add a header specifying what property should be inspected
+
+## Being discoverable
+Like a table of contents in books, APIs can be designed in order to be discoverable.
+This is done by providing additional data in various ways,
+specifically discoverability can be improved by taking advantage of the protocol used.
+REST APIs have the discoverable feature in their genes because they use HTTP protocol.
+
+1. Providing metadata
+    How do consumers know that there are multiple pages available?
+    If you only return items, it's like a book without page numbers and table of content.
+    This response could be improved by adding some `metadata` about pagination.
+```json
+{
+    "pagination" : {    // <-- pagination
+        "page": 1,
+        "totalPages": 9
+    },
+    "items": {          // <-- items themselves
+        
+    }
+}
+```
+    Even if client didn't request specific page in a request you could supply 
+    this metadata anyway, to make your API discoverable.
+    
+    Metadata is not limited to pagination, it can be used to tell the client
+        + what operations are available on the object
+        + what types of objects there are
+        + etc.
+
+2. Creating hypermedia APIs
+    Imagine a site doesn't have hyperlinks, would it be pleasurable for you
+    to got to site docs and discove all hyperlinks yourself?
+    The World Wide Web without its hypermedia links would be quite terrible to use.
+    
+    Fortunately, this isn’t how it works. Once on a website,you can discover its content
+    simply by clicking links and going from one page to another. You can leverage
+    hyperlinks in your api as well: 
+    ```json
+    {
+        "pagination" : {
+            "next" : "/accounts/1234567/transactions?page=2",
+            "last" : "/accounts/1234567/transactions?page=7"
+        }, 
+        "items" : {
+            
+        }
+    }
+    ```
+    There is no standard way to provide this hypermedia metadata,
+    but there are common practices.
+    
+    Hypermedia metadata usually uses names such as 
+        + href
+        + links
+        + _links.
+
+    Although there is no standard, several hypermedia formats have been defined.
+    One of the most popular ones are `HAL` and `Siren`.
+    A basic HAL document has a `links` property containing the available links
+    Each `link` is an object identified by its relationship with the current resource.
+    The link object contains at least an `href` property with the full URL or relative URL
+    ```json
+    {
+        "_links" : {
+            "self": {
+                "href": "/accounts/1234567"
+            },
+            "transactions": {
+                "href":"/accounts/1234567/transactions"
+            }
+        },
+        "id": "1234567",
+        "type": "CURRENT",
+        "balance": 10345.4,
+        "balanceDate": "2018-07-01"
+    }
+    ```
+    Hypermedia APIs do not only provide available URLs they can also provide
+    available HTTP `methods`.
+    "Siren" allows you to specify http methods for actions, links for releveant resources
+    and properties for the item all in different json objects in a single root json.
+    ```json
+    // example of a siren document
+    {
+        "properties" : {
+            "id": "000001",
+            "date": "2135-07-01",
+            "source": "1234567",
+            "destination": "7654321",
+            "amount": "1045.2"
+        },
+        "links": [
+        { 
+            "rel": ["self"],
+            "href": "/transfers/000001" 
+        }],
+        "actions": [
+        { 
+            "name": "cancel",
+            "href": "/transfers/000001",
+            "method": "DELETE" 
+        }],
+    }
+    ```
+    
+    Providing hypermedia metadata is the most common way of taking advantage of the
+    web roots of REST APIs to create predictable APIs, but the HTTP protocol provides
+    features that can be used to make REST APIs even `more predictable`.
+
+3. Taking advantage of HTTP protocol
+    `OPTIONS` http method can be used to request available http methods on a resource:
+    ```c
+    OPTIONS /transfers/000001       // http request
+    
+    200 OK                          // http response
+    Allow: GET, DELETE              // Allow is an HTTP header
+    Content-type: application/json  // Specify content type
+    Link: "/accounts/1234567/transactions?type=text/csv" // available formats
+    ```
+    
+    Note that such use of the HTTP protocol by REST APIs is `not widespread`.
+    You can use such features, but they will have to be carefully `documented`.
+    Don't confuse users with complex or totally unused features.
+    
+
+
+
+
+
+
 
 
 
