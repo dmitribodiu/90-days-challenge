@@ -73,7 +73,7 @@ All nodes that have children are called internal nodes.
     + All nodes have either 0, 1, or 2 children
 
 ## Heaps
-1. `Priority Queue` is Highest Priority In, First Out (highest priority is first to exit)
+1. `Priority Queue` is "Highest Priority In, First Out"(highest priority is first to exit)
 
 There is a specic data structure that developers typically
 use to implement the Priority Queue ADT that guarantees
@@ -90,7 +90,7 @@ The binary heap, has three constraints:
         are fully filled, if last level is not complete is't filled from `left to right`.
 
 There are two `types of heaps`: min-heap and max-heap, they differ by priority
-In min-heap the loves value is at the root of the tree.
+In min-heap the lowest value is at the root of the tree.
 In max-heap the greatest value is at the root.
 
 > Operations
@@ -136,11 +136,11 @@ We must consider three cases:
     3. Has two children
         replace the node with successor
 `In-order traversal`
-    To enable traversal from any point you can travers by calling successor repeatedly
+    To enable traversal from any point you can traverse by calling successor repeatedly
     until it returns NULL.
     
 a **balanced** k-ary tree is one where most nodes have exactly k children.
-nd all leaves are roughly equidistant from the root
+and all leaves are roughly equidistant from the root
 
 # ■■■ Day 2
 ## Randomized Search Tree
@@ -165,7 +165,7 @@ that allow us to build a tree **dynamically**.
 > Operations
 `Insertion`
     1. Insert using typical BST insertion algorithm (using key)
-    2. Get proper BST, but `priority may be violated`.
+    2. You get proper BST, but `priority may be violated`.
     3. Change nodes keeping BST constrains to safisfy Heap constarint, how to do it?
     4. It turns out that we actually are able to "bubble up" a given node without
         destroying the Binary Search Tree properties of the tree via an operation called
@@ -211,7 +211,7 @@ subtree heights differ by more than one `rabalancing is done`.
     difference in height between two subtrees
 2. Balance factor in AVL tree for all nodes must be less than 2
 
-AVL rotations change the number of children in two node.
+AVL rotations change the number of children in the node.
 Node that is a child gives one it's child to the parent.
 
 > Operations
@@ -244,51 +244,15 @@ You need to perform double rotation when you have a parent that is unbalanced
 (balance factor of 2) and a child that is `slightly unbalanced` (BF = 1)
 but in another direction (so you get the kink `>`)
 
-## Red-black trees
-This self-balancing tree is able to insert and delete with just a `single pass` 
-through the tree. (unlike avl where you needed two)
-
-RBT must have five properties:
-1. All nodes must be either red or black
-2. Root must be black
-3. If a node is red all children must be black
-4. For any node, path to a null reference (null right/left child down the tree) 
-    must contain `the same number of black nodes`
-5. Null references (null left/right children) are colored black.
-
-Some RBT are also AVL but not all.
-
-In some sence red nodes mean you can't add childrent to them until you
-have added some other nodes to those that are black. 
-
-To insert or delete nodes we can use AVL rotations and node recoloring.
-(remember you have to always keep yor root black)
-`default color` for newly-inserted nodes is always `red` 
-(to maintain constant path of black nodes)
-
-> Operations
-`Insertion`
-    1. BST insertion, color - red (if it's the first node in the tree, recolor it black)
-    2. If you run into black node with two red children, recolor all three nodes
-        (if after recoloring you have a black root, recolor it back to black)
-    3. If after BST insertion the parent of the node is red, make AVL
-        rotation of the parent and it's parent and swap their colors.
-    4. In case of a "kink", perform the double AVL rotation.
-        (Use it when you have two subsequent nodes of red color, but parent red is on
-        the left side and child is on the right or vice versa)
-
-RBT may be two times slower in find operations than AVL trees.
-But in insert and delete operations it's likely to be faster.
-
 ## B-Trees
 Until now we have been assuming that all node accesses take that same amount of time.
 Which is not true (processor registers are 10x faster than RAM(5ns vs 50ns))
 
 The sections of memory in processor that are fast are small in size consequently,
-as our data structures grow in size, they will not be able to t in such
+as our data structures grow in size, they will not be able to fit in such
 a small section of memory.
 
-Processor loads data that is close spacially, close to each other.
+Processor loads data that is spacially close to each other.
 (e.g array values will be close spacially in processor cache)
 
 That means that to speed up our trees we need to minimize the number of traversals
@@ -315,27 +279,17 @@ B-Tree should satisfy the following properties:
     The secret to having the leaves constantly be on the same level is
     to have the `tree grow upward` instead of down from the root
     
-    You insert values into a node, when you more than 2b - 1 values in a node
+    You insert values into a node, when you have more than 2b - 1 values in a node
     get an item in the center of the ordered array that contains values
-    and create a new parent node with this value, you you already have a parent
+    and create a new parent node with this value, you already have a parent
     node, add to it this value, if i'ts full, take the middle value from there and 
     go upwards again to create parent/add values to existing.
 `Deletion`
-    When deleting you need to consider 4 cases:
+    When deleting you need to consider many:
         1. Deleting a leaf value - just delete
         2. Deleting non-leaf value 
-            find a predecessor in subtree and put it in place of the value
-            predecessor can be found as the largest value in the left subtree
-            or smalles int the right subtree. (Note when you replace a predecessor
-            you technically deleting it from the previous place so you
-            need to find a predecessor for it as well unless it's a leaf node)
         3. Delete the last value in a child node 
-            1. If you have "rich sibling"
-                Put value in child node from the parent node.
-                Get value from some other child and put it in the parent so that 
-                parent has the same number of values.
-            2. If you don't have a "rich sibling"
-                you need to "merge" (advanced)
+        4. etc.
 
 # ■■■ Day 3          
 # Introduction to Graphs
@@ -519,11 +473,11 @@ function unite(set1, set2) {
     return newSet;
 }
 function XOR(set1, set2) {
-    const diff = new Set();
+    const xor = new Set();
     for(let elem of [...set1, ...set2])
         if( !(set1.has(elem) && set2.has(elem)) ) 
-            diff.add(elem);
-    return diff;
+            xor.add(elem);
+    return xor;
 }
 ```
 
@@ -536,18 +490,17 @@ function XOR(set1, set2) {
 > Insertion
 1. Take next
 2. Find place to insert
-(some implementations use "bubbling" technique where you take next item swat it
+(some implementations use "bubbling" technique where you take next item swap it
 with items you have until the item finds it's place)
 
-> Count sort
+> Count sort O(n)
 This sort doesn't compare values and works only for integers of a small range.
 How it works? It counts number of occurences of every number in an array and 
 then recreates array from scratch by putting numbers in an array the amount of 
 times it saw it before.
 ```js
-// coute array
 [3,1,3,1,3,1,1]
-
+// count table
 {
     "0" : 0
     "1" : 4
@@ -562,7 +515,7 @@ times it saw it before.
 1. sqrt without any math library
     1. Use binary search
 ```js
-function getSr(n) {                             // sr -> square root
+function getSqrt(n) {                             // sr -> square root
     if(n == 1 || n == 0 ) return n;
     if(n%1 != 0) 
         throw new Error("Only integers allowed");

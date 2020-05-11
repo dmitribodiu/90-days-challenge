@@ -26,7 +26,7 @@ making it a good starting point for most applications
 
 ## Properties
 1. Agility - low
-    Cumbersome to make changes because of a monolithic nature of the pattern.
+    Cumbersome to make changes because of monolithic nature of the pattern.
 2. Ease of deployment - low
     Deployment may become an issue for larger apps.
     `Bad for CI pipeline`.
@@ -121,7 +121,7 @@ and establish a contract versioning policy right from the start.
 4. Performance - high
     Due to asynchronous nature is't very performant.
 5. Scalability - high
-    Each processor can be scaled separately which allows for fine-grained scalabiliyt.
+    Each processor can be scaled separately which allows for fine-grained scalability.
 6. Ease of development - low
     Why? 
     1. Async 
@@ -192,7 +192,7 @@ Microservices naturally evolved from layered architecutre and service-oriented
 pattern. This is the next step in patterns evolution.
 
 When you deploy a monolitic application there's a high chance that something
-will break. Wiht microservices on the other hand you can deploy more frequently 
+will break. With microservices on the other hand you can deploy more frequently 
 and can have more confidence in release quality.
 
 Microservices were designed to be easier than SOA to implement, it's attained
@@ -202,7 +202,7 @@ by simplifying connectivity and access to to service components.
 In theory you can implement microservices however you want but 
 the most common way to implement the patten is by using:
 1. API REST based topology
-    For websites with specific purposes. That contain of small services
+    For websites with specific purposes. That comprise of small services
     that implement some small self-contained portion of business logic.
 2. application REST based topology
 3. Centralized messaging topology
@@ -226,7 +226,7 @@ are too large.
 One way to prevent calling multiple components from within a component is 
 to create a `shared database`. This way your services might have repeating 
 code for database access, but it's a common practice,
-you change redundancy of code for decoupling.
+you exchange redundancy of code for decoupling.
 
 ## Properties
 1. Agility - high
@@ -287,7 +287,7 @@ Limiting the design time forces you to produce `good-enough` design.
     With enough amount of constraints you don't need to design anything, it is what it 
     is.
     
-> The clean canvas is the words design problem. (no constraints)
+> The clean canvas is the worst design problem. (no constraints)
 
 # System Design <<<
 # ■ Desomposition
@@ -297,7 +297,7 @@ it is critical to get the architecture right.
 The correct decomposition is critical. A wrong decomposition means wrong architecture.
 In modern systems `services` are the most granular unit of the architecture.
 However, the technology used to implement the components and their details
-are detailed design aspects, not system decomposition. 
+are detailed design aspects, not system architecture. 
 
 ## Avoid functional decomposition
 Functional decomposition decomposes a system into its building
@@ -391,7 +391,7 @@ an essential part of testing, it cannot really test a `system`.
 
 even if the complex system is at a perfect state of impeccable quality,
 changing a single, unit-tested component could break
-some other unit relying on an old behavior.
+some other unit relying on old behavior.
 
 The only way to verify change is `full regression testing` of the system
 But functional decomposition makes the entire system untestable in terms of 
@@ -418,7 +418,7 @@ encapsulates those into services or system building blocks. You then implement
 the required behavior as the interaction between the encapsulated areas of volatility
 
 With volatility-based decomposition you can think of your system as of series of vaults
-that contain granates (changes) than may potentially cause problems to your app.
+that contain granades (changes) than may potentially cause problems to your app.
 
 With functional decomposition, your building blocks represent
 areas of functionality, not volatility so when change happens it may affect multiple
@@ -920,8 +920,8 @@ Requirements change.
     Any attempt at designing against the requirements will always guarantee pain.
 
 3. Futility of requirements
-    the correct way of capturing the requirements is in the form of use cases:
-    the required set of behaviors of the system.
+    the correct way of capturing the requirements is in the form of `use cases`:
+    the required `set of behaviors`(not functions) of the system.
     
     You can't collect a complete and correct list of requirements upfront. requirements
     will change during development.
@@ -929,22 +929,23 @@ Requirements change.
 ## Composable design
 The goal of any system design is to be able to satisfy `all use cases`.
 The word all in the previous sentence really means all:
-+ present
-+ future
-+ known
-+ unknown 
+    + present
+    + future
+    + known
+    + unknown 
 Nothing less will do. If you fail to pass that bar, then at some
 point in the future, when the requirements change, your design will have to change which
-is a `sign of a bad design`.
+is a `sign of a bad design` (architecture should remain constant)
 
 1. Core use cases
     The core use cases represent the essence of the business of the system.
     Most systems have as few as two or three core use cases,
     and the number seldom exceeds six.
     1. Finding the core use cases
-        A  core use case will almost always be some kind of an abstraction of other use cases,
-        and it may even require a new term or name to differentiate it from the rest. 
-        The whole point of requirements analysis is to recognize the `core` use cases
+        A  core use case will almost always be some kind of an abstraction of other
+        use cases, and it may even require a new term or name to differentiate it from
+        the rest. The whole point of requirements analysis is
+        to `recognize the core use cases` in customer requirements.
     
 2. The Architect's mission
     Your mission as an architect is to identify the smallest set of components that
@@ -955,12 +956,12 @@ is a `sign of a bad design`.
         `core` use case, you have produced a `valid` design. 
 
     2. Smallest set
-        Remember: Your mission as the architect is to identify not just a set
+        Remember: Your mission as an architect is to identify not just a set
         of components that you can put together to satisfy all the core use case,
         but the `smallest` set of components.
 
         The smallest set of services required in a typical software system
-        contains 10 services in order of magnitude (12, 20, 15, 25)
+        contains number of services that is in order of magnitude `10` (12, 20, 15, 25)
         
         Even in a large system you are commonly looking at two to five Managers,
         two to three Engines, three to eight ResourceAccess and Resources,
@@ -987,42 +988,12 @@ You never should implement feature, you have to impolement everything that combi
 will provide the feature and much more. This will make your design solid.
 
 ## Handling change
-Your software system must respond to changes in the requirements and resond to them fast.
+Your software system must respond to changes in the requirements and respond to them fast.
 
-The trick to addressing change is not to fight it, postpone it, or punt it altogether.
+The trick to addressing change is not to fight it, postpone it, or put it altogether.
 The trick is `containerizing its effects`  (volatility based decomosition to the resque)
 
 # ■ System design example
-## System overview
-TradeMe is a system for matching tradesmen(self-employed people)
-to contractors and projects. The contractors need tradesmen on an ad hoc basis.
-The TradeMe system allows tradesmen to sign up, list their skills,
-their general geographic area of availability, and the rate they expect.
-
-1. Legacy system
-    Lack of separation between UI and business logic prevents updating
-    the applications to modern user experience. The legacy system was never designed
-    with security in mind. For that matter, it was never designed at all, but
-    rather grew organically.
-    
-2. Use cases
-    1. Core use case
-        The essence of the system is not to add a tradesman or contractor,
-        to create a project, or to pay a tradesman. Instead, the system’s raison
-        d’être is given in the opening one-sentence definition:
-        "TradeMe is a system for matching tradesmen to contractors and projects"
-        
-        Even though for design validation you need to support just the core use cases,
-        that does not mean you should ignore the other use cases
-    
-    2. Simplifying the use cases
-        Customers rarely ever present the requirements in a useful format,
-        let alone in a way that is conducive to good design. You must always transform,
-        clarify, and consolidate the raw data.
-    
-        You transform the raw use case by subdividing the activity diagram into
-        areas of interactions using "swimlines".
-
 ## Business alignment
 architecture does not exist for its own sake.
 The architecture (and the system) must serve the business.
@@ -1041,9 +1012,9 @@ that the business has for its future and with the business objectives
         + support full business visibility 
         + streamline security
     
-3. Mission statement
+3. `Mission` statement
     The mission is not to build features—`the mission is to build components`
-    that will allow for creating any feature now and in the future.
+    that will allow for creating `any feature` now and in the future.
     
     **Vision => Objectives => Mission statement => Architecture**
 
@@ -1331,6 +1302,167 @@ REST APIs have the discoverable feature in their genes because they use HTTP pro
     You can use such features, but they will have to be carefully `documented`.
     Don't confuse users with complex or totally unused features.
     
+# ■■■ Day 11
+# Designing concise and well-organized api
+Organizing and sizing an API’s data,
+feedback, and goals is important in order to provide an API that can be easily understood
+and will not overwhelm users.
+
+## Organizing api
+Just like an everyday object, an API can be either unusable or perfectly
+intuitive, depending on the `organization` of its data, feedback, and goals.
+
+1. Organizing data
+    You can `sort` properties of data by their name.
+    You can `group` properties by putting them into another object
+    ```json
+    {
+        "age": 3,
+        "type": 2,
+        "safeToSpend": 600,
+        "overdraftProtection": true,
+        "limit": 100
+    }
+    {
+        "overdraftProtection": {
+            "active": true,
+            "limit": 100
+        },
+        "age": 3,
+        "type": 2,
+        "safeToSpend": 600,
+    }
+    ```
+
+2. Organizing feedback
+    A well-organized API provides well-organized feedback.
+    You should organize your errors when they occur.
+    I.e you could assign to every error it's type (business type), source and message.
+
+3. Organizing goals
+    OpenAPI Specification can be used to organize an API’s goals.
+    You can add `tags`
+    ```yaml
+    get: 
+      tags: 
+         - Account
+    ```
+    The idea is to group together goals that are related from a functional point of view.
+    you must focus on the `functionality` of the goals and not their representations
+    
+    `Sorting by tags`: people will likely want to accesss account functionality 
+    before doing any transfers in some banking app, so you can sort goals by tags
+    in OpenAPI like this:
+    ```yaml
+    opanapi: "3.0.0"
+    tags:
+        - name: Account
+          description: "dfdf"
+        - name: Transfer
+          description: "dfdf"
+    ```
+    Now all Account goals will go before Transfer.
+    
+    Now that the groups are sorted, we should also `sort the operations` within the groups
+        1. Preserve the order of http verbs: get, post, patch, delete
+        2. put same resources together
+        ```openapi
+        get beneficiaries
+        pust beneficiaries
+        get beneficiaries/:id
+        ```
+        3. group resource paths
+        ```
+        /account/accounts/
+        /account/accounts/{id}
+        
+        /transfer/beneficiaries/
+        /transfer/beneficiaries/{id}
+        /transfer/transfers/
+        ```
+
+## Sizing api
+Objects providing too many functions, too many controls, or too much
+information are usually not really usable. Sometimes you’ll find that
+what you’d considered as a single API can be worth splitting into different ones
+
+1. Choosing data granularity
+    Try to restrict the number of properties and the nesting depth of 
+    properties you return to the client.
+
+2. Choosing goal granularity
+    You need to consider how particular goal should be structured.
+    I.e you should not allow a client to manipulate it's transactions 
+    through his account endpoint, instead create another endpoint for 
+    transactions manipulating.
+    `Avoid` creating does-it-all goals
+    
+3. Choosing API granularity
+    Sometimes you may want to split api into multiple services.
+    
+# Contextual API design <<<
+An API must be `secure by design`
+
+# Designing a secure API
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
