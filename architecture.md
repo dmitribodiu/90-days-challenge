@@ -360,7 +360,7 @@ At all costs, you must `resist the temptations` of functional decomposition.
 Functional decomposition has it's place when trying to figure out requirements 
 from the customer. However there should `never` be direct mapping between the
 requirements and the design.
-    
+
 ## Avoid domain decomposition
 Domain decomposition is decomposing a system into building blocks
 based on the business domains. The reason domain decomposition does not work is that
@@ -682,16 +682,16 @@ You should consider these four main layers:
 
     1. Use atomic business verbs
         Atomic business verbs are low level `activities` that can not be expressed 
-        by any other activity in the system. E.g in bank may have transfer high level
+        by any other activity in the system. E.g Bank may have transfer high level
         activity that comprises of two low level activities: debit and credit. These
-        are two atomic business verbs. Altho they are atomic for business they may need
+        are two atomic business verbs. Although they are atomic for business they may need
         multiple steps to perform in your system.
         
-        Resource access layer should `only` expose these atomic business verbs to the 
+        Resource access layer should `only` expose `these` atomic business verbs to the 
         higher layer.
 
     2. Resource access reuse
-        Resource access services can and should be shared between managers and engines
+        Resource access services can and should be `shared between managers and engines`
         if you have trouble sharing the same resource access endpoint for the same
         purpose between managers and engines you have probably failed to identify
         an atomic business verb.
@@ -720,16 +720,18 @@ You should consider these four main layers:
             + for resource access - noun associated with a resource
         + gerunds should only be used in engines (because they describe activity)
         + atomic business verbs should not be used in prefix for a service name.
-            they should only appeare in opeartion names in resource access layer.
+            they should only appear in operation names in resource access layer.
 
     e.g : 
         + BillingManager 
             bad, managers should not contain gerunds, they don't describe actions
-            they should describe orchestration of actions.
+            they should describe orchestration of actions. Better one: PaymentManger
+            (encapsualtes volatility in payment process)
         + CalculatingEngine
             good
         + AccountEngine
             bad, not clear what activity it incapsulates.
+            better one: CalculatingEngine
 
 2. The four questions
     When you are not sure about where to start the design, you can start by answering
@@ -739,12 +741,12 @@ You should consider these four main layers:
         3. how
         4. where
 
-3. Managers to engines ration
-    If your design contains a large number of Engines, you may have inadvertently
+3. Managers to engines ratio
+    If your design contains a large number of Engines, you probably have
     done a functional decomposition. Because there is naturally not that many 
     atomic operations in any business.
-     
-    Typically the should be more managers than engines and they typically
+
+    Typically there should be more managers than engines and they typically
     maintain the `golden ratio` (managers = engines * 1.61). But if you have
     too many manabers (6+) it may be a sign of a bad design. The large number of Managers
     strongly indicates you have done a functional or domain decomposition.
@@ -757,7 +759,6 @@ You should consider these four main layers:
         Engines are less volatile than Managers.For an Engine to change, your business
         must change the way it is performing some activity.
         Resources are the least volatile components.
-        
         A design in which the volatility decreases down the layers is extremely `valuable`
     
     2. Reuse `increases` top-dows
@@ -793,21 +794,21 @@ You should limit the number of Managers per subsystem to `three`.
     Meaning design can change because you don't yet know the final result.
     But when you build you need to know what will be the end result of development.
     There are `two reasons` why you can build only incrementally, and not iteratively:
-        1. Building iteratively is horrendously wasteful, you can just use a rubber
-            gum to remove unwated pieces as you could do at the design stage.
+        1. Building iteratively is horrendously `wasteful`.
         2. Intermediate iterations don't have any business value.
     
     Building iteratively vs building incrementally
         + iteratively - build 4 floor house but with poor quality, bad walls, bad floors 
-            and so on. Then with time imporve all aspects at the same time but slowly.
+            and so on. Then for the next iteration destroy the existing house and build
+            new one with a new architecture that will support higher quality.
         + incrementally - build 1 floor properly and then go to the second one 
-            and do it properly.
+            and do it properly each time, maintaining the same architecture.
         
     - Extensibility
         The vertical slices of the system also enable you to accommodate extensibility. 
         If you have designed correctly for extensibility, you can mostly
         leave existing things alone and extend the system as a whole by adding more 
-        of "vertical slices".
+        `vertical` slices.
         
 2. About microservices
     There are no microservices—only services. 
@@ -838,11 +839,11 @@ You should limit the number of Managers per subsystem to `three`.
 1. Open architecture
     In an open architecture, any component can call any other component
     regardless of the layer in which the components reside. It gives you greater 
-    flexibility at a cost of high coupling.
+    flexibility at a cost of `high coupling`.
     
     Calling sideways also creates additional coupling. When using open architecture,
     there is hardly any benefit of having architectural layers in the first place.
-    In software engineering, trading encapsulation for flexibility is a bad trade.
+    In software engineering, trading encapsulation for flexibility is a `bad` trade.
 
 2. Closed architecture
     In a closed architecture, you strive to maximize the benefits of the
@@ -856,7 +857,7 @@ You should limit the number of Managers per subsystem to `three`.
     You should avoid this architecture as in most cases it can't be justified.
 
 4. Relaxing the rules
-    For real-life business systems, the best choice is always a closed architecture. 
+    For real-life business systems, the best choice is always a `closed` architecture. 
     
     1. Calling utilities
         In a closed architecture, Utilities pose a challenge. If you call them a 
@@ -865,7 +866,7 @@ You should limit the number of Managers per subsystem to `three`.
         to call any utility.
         
         You may see attempts by some developers to abuse the utilities bar by
-        christening as a Utility any component they wish to short-circuit across
+        calling a Utility any component they wish to short-circuit across
         all layers. Not all components can reside in the utilities bar.
         
         To qualify as a Utility, the component must pass a simple litmus `test`:
@@ -875,25 +876,27 @@ You should limit the number of Managers per subsystem to `three`.
         Managers and Engines can both call ResourceAccess services without
         violating the closed architecture
     3. Queued manager to manager
-        Manager can queue a call to another manager, (it's not a sideways call)
+        Manager can `queue` a call to another manager,
+        which won't count as a sideways call
     4. Opening the architecture
         Even with the best set of guidelines, time and again you
         will find yourself trying to open the architecture.
         
         Instead of violating the architecture you should find a better way to 
         do the same thing `preserving the architecture`. There's always such a way.
-        E.g you could harness message queuing or utilities bar.
+        E.g you could harness message queuing or utilities bar. Solid architecture 
+        will payoff a lot later.
 
 5. Design dont's
     **DON'T DO THESE THINGS**
     1. Clients can only call managers.
         Otherwise you pollute clients with business logic which will render further
         development hell.
-    3. Managers don't queue calls to more than one manager in the same use case.
+    2. Managers don't queue calls to more than one manager in the same use case.
         Use event listening utility instead.
-    4. Only managers can queue or listen to events
+    3. Only managers can queue or listen to events
         Other services should not care about events. It's not their business.
-    6. No service should can call it's sibling.
+    4. No service should be able to call it's sibling. (sideway call)
 
 6. Strive for symmetry
     The symmetry in software systems manifests in repeated call patterns across use cases.
@@ -928,7 +931,7 @@ Requirements change.
     
 ## Composable design
 The goal of any system design is to be able to satisfy `all use cases`.
-The word all in the previous sentence really means all:
+The word all in the previous sentence really means `all`:
     + present
     + future
     + known
@@ -948,7 +951,7 @@ is a `sign of a bad design` (architecture should remain constant)
         to `recognize the core use cases` in customer requirements.
     
 2. The Architect's mission
-    Your mission as an architect is to identify the smallest set of components that
+    Your mission as an architect is to identify the `smallest` set of components that
     you can put together to satisfy all the core use cases.
     A composable design does not aim to satisfy any use case in particular.
     1. Architecture validation
@@ -1101,7 +1104,6 @@ it must `never` be used at the expense of `usability`.
         nautical miles instead. For language processing you would use `token` instead
         of word.
     4. Consistency with the rest of the world
-        (see 4 - copying others)
 
 4. Copying others: Following common practices and meeting standards
     Like any real-world device, an API can take advantage of standards
@@ -1167,7 +1169,7 @@ we can do that with APIs too.
     internationalization features and update your API later if needed.
 
 3. Filtering, paginating, and sorting
-    To get specific pagin in an array of objects you can utilize `Range` http header.
+    To get specific page in an array of objects you can utilize `Range` http header.
     (e.g : Range: items=10-19)
     You can use any string value instead of "items" but remember about consistency,
     better choose a name for a single item and stick to it.
@@ -1188,19 +1190,19 @@ REST APIs have the discoverable feature in their genes because they use HTTP pro
     How do consumers know that there are multiple pages available?
     If you only return items, it's like a book without page numbers and table of content.
     This response could be improved by adding some `metadata` about pagination.
-```json
-{
-    "pagination" : {    // <-- pagination
-        "page": 1,
-        "totalPages": 9
-    },
-    "items": {          // <-- items themselves
-        
+    ```json
+    {
+        "pagination" : {    // <-- pagination
+            "page": 1,
+            "totalPages": 9
+        },
+        "items": {          // <-- items themselves
+            
+        }
     }
-}
-```
+    ```
     Even if client didn't request specific page in a request you could supply 
-    this metadata anyway, to make your API discoverable.
+    this metadata anyway, to make your API `discoverable`.
     
     Metadata is not limited to pagination, it can be used to tell the client
         + what operations are available on the object
@@ -1399,46 +1401,294 @@ what you’d considered as a single API can be worth splitting into different on
     
 3. Choosing API granularity
     Sometimes you may want to split api into multiple services.
+
+# ■■■ Day 12
+# Functional domain modelling >>>>>
+# Understanding the Domain <<<
+# Introducing DDD
+Let's look at how to minimize the “garbage-in” by
+using a design approach focused on clear communication and shared domain
+knowledge: Domain-Driven Design.
+
+DDD is particularly useful for business and enterprise software, where developers
+have to collaborate with other nontechnical teams
+
+## The Importance of a Shared Model
+how can we ensure that we, as developers, do understand the problem?
+A mismatch between the developer’s understanding of the problem and the domain expert’s
+understanding of the problem can be fatal to the success of the project.
+
+The goal of domain-driven design is to `share the same mental model of a domain`
+among domain experts, architects and developers. 
+
+Aligning the software model with the business domain has a number of benefits:
+    1. Faster time to market.
+    2. More business value
+    3. Less waste
+    4. Easier maintenance
+        When the model expressed by the code closely matches the domain expert’s own model
+        making changes to the code is easier and less error prone.
+
+So we need to create a shared model. How can we do this? We can follow the following 
+guideline:
+    + Focus on business events and workflows rather than data structures.
+    + Partition the problem domain into smaller sub-domains.
+    + Create a model of each sub-domain in the solution
+    + Develop a common language
     
-# Contextual API design <<<
-An API must be `secure by design`
+## Understanding the Domain Through Business Events
+Domain events are the starting point for almost all of the business processes
+we want to model. It's somethign that forces `data transformation`.
+Domain events are always written in the past tense – something happened –
+because it’s a fact that can’t be changed.
 
-# Designing a secure API
+1. Using Event Storming to Discover the Domain
+    Is a collaborative process for discovering business events and their workflows
+    
+2. Discovering the Domain: An Order-Taking System
+    After event storming we might have list of posted events like this:
+        + ‘Order form received’
+        + ‘Order placed’
+        + ‘Order shipped’
+        + ‘Order change requested’, ... etc
+    It can `help` us with:
+        + Finding gaps in the requirements
+            When the events are displayed on a wall in a timeline, missing requirements
+            often become very clear.
+        + Connect teams better
+            The events can be grouped in a timeline, and it often becomes clear that
+            one team’s output is another team’s input.
+        + Awareness of reporting requirements
+            Any business needs to understand what happened in
+            the past – reporting is always part of the domain!
+            
+3. Expanding the Events to the Edges
+    Extending the events out as far as you can in either direction is another great
+    way of `catching missing requirements`. Constantly ask what then? or how did you get 
+    there? questios to expand the edges of an event.
+    
+4. Documenting Commands
+    Once we have a number of these events on the wall, we might ask: “`What`
+    made these domain events happen?” We call these requests Commands in DDD terminology
+    
+    `An event triggers a command`, which initiates some business workflow.
+    The output of the workflow is some more events. And then, of course, those events can
+    trigger further commands.
 
+    By the way, not all events need be associated with a command. Some events
+    might be triggered by a scheduler or monitoring system
 
+## Partitioning the Domain into Subdomains
+We have now got a list of events and commands, and we have a good understanding
+of what the various business processes are.
+we can define a `domain` as **an area of coherent knowledge**.
 
+Within a domain, there might be areas which are distinctive as well. We call
+these `sub-domains`. Domains can overlap, it is tempting to want clear, crisp boundaries,
+but the real world is fuzzier than that
 
+## Creating a Solution Using Bounded Contexts
+The solution can’t possibly represent all the information in the original domain,
+nor would we want it to. We should only capture the information which is
+relevant to solving a particular problem – everything else is irrelevant
 
+To build the solution we will create a model of the problem domain, extracting only
+the aspects of the domain that are relevant and then recreating them in our
+solution space.
 
+In the real world, domains have fuzzy boundaries, but in
+the world of software we want to reduce coupling between separate subsystems
+so that they can evolve independently. This means, sadly, that our domain
+model will never be as rich as the real world, but we can tolerate this in
+`exchange for less complexity and easier maintenance`.
 
+However you partition the domain, it’s important that each bounded context
+has a clear responsibility, because when we come to implement the model, a
+bounded context will correspond exactly to some kind of software component.
 
+1. Getting the Contexts Right
+    one of the most important challenges of a domain-driven
+    design is to get these context boundaries right
+    here are some guidelines that can help:
+        + listent to domain experts
+        + pay attention to real world boundaries
+            (but don't think this is the best way to partition the system)
+        + design for `autonomy`
+            so that every subdomain can `evolve independently` 
+        + consider business workflow as well
+            sometimes it may be better to uglify the design in order to improve 
+            some business workflow.
+            
+2. Creating Context Maps
+    Once we have defined these contexts we need a way to communicate the
+    interactions between them – `the big picture` – without getting bogged down
+    in the details of a design. The goal is not to capture every detail, but
+    to provide a view of the system as a whole.
+    You can visualize it as a `graph`
 
+3. Focusing on the Most Important Bounded Contexts
+    Generally, some domains are more important than others. These are the `core` domains
 
+    Other domains may be required but are not core. These are called _supportive_
+    domains, and if they are not unique to the business, are called _generic_
+    domains (generic domains can be easily outsourced)
 
+## Creating a Ubiquitous Language
+if the domain expert calls something an “Order”
+then we should have something called an Order in the code that corresponds
+to it and that behaves the same way
 
+And conversely, we should `not` have things in our `design` that do not represent
+something in the domain expert’s model.
 
+The set of concepts and vocabulary that is shared between everyone on the
+team is called the `Ubiquitous Language`
 
+And, as its name implies, this language should used everywhere in the project,
+not just in the requirements but in the design and, most importantly, the source code.
 
+# Understanding the Domain
+## Interview with a Domain Expert
+The best way to learn about a domain is to pretend you’re
+an anthropologist and avoid having any pre-conceived notions
 
+1. Understanding the Non-Functional Requirements
+2. Understanding the Rest of the Workflow
+3. Thinking About Inputs and Outputs
 
+## Fighting the Impulse to Do Database-Driven Design
+In domain-driven design we let the domain drive the design, not a database schema.
+the users do not care about how data is persisted.
 
+If you design from the database point of view all
+the time, you often end up `distorting` the design to fit a database model.
 
+## Fighting the Impulse to Do Class-Driven Design
+We should keep our minds `open` during requirements
+gathering and not impose our own technical ideas on the domain
 
+## Documenting the Domain
+how should we record these requirements?
+We could use some vidual language like UML or some language like yaml.
 
+## Representing Complexity in our Domain Model
+1. Representing Constraints
+2. Representing the Life-cycle of an Order
+3. Fleshing Out the Steps in the Workflow
 
+listening to the domain expert carefully reveals a lot of
+complexity, even in a relatively simple system
 
+# A Functional Architecture
+how should we translate our understanding of the
+domain into a software architecture? 
 
+In a fast-paced development cycle, we will often need to start implementing some
+of the domain before we have understood the rest of it
 
+A software architecture consists of `four levels`:
+    1. system context
+        top level representing the entire system
+        system context comprises of `containers`
+    2. containers 
+        deployable units such as a website, a web service, a database
+        each container comprises of a number of `components`
+    3. component
+        major structural building block in the code
+        each component comprises a number of `classes` (not OOP classes)
+    4. class
+        structure that contains low-level methods or functions
+    
+One of the goals of a good architecture is to define the various boundaries
+between containers, components, and modules, such that when new
+requirements arise, as they will, the “cost of change” is minimized.
 
+## Bounded Contexts as Autonomous Software Components
+bounded contexts should stay decoupled and autonomous.
 
+## Communicating Between Bounded Contexts
+How do bounded contexts communicate with each other?
+You could choose `message queue` communication to reduce coupling.
 
+1. Transferring Data Between Bounded Contexts
+    In general, an event used for communication between contexts will not just
+    be a simple signal, but will also contain all the data that the downstream
+    components need to process the event. (if data is too large, you could pass a ref.)
+    
+    To transfer data you could use DTC's (Data transfer objects)
 
+2. Trust Boundaries and Validation
+    At the input gate, we will `always validate` the input to make sure that it conforms
+    to the constraints of the domain model. If the validation fails, then the rest of
+    the workflow is bypassed and an error is generated
 
+    The job of the output gate is different. Its job is to ensure that
+    `private information doesn’t leak out of the bounded context`
+    (especially for security reasons)
+    In order to do this, the output gate will often deliberately “lose” information
+    in the process of converting domain objects to DTOs.
 
+## Contracts Between Bounded Contexts
+We want to reduce coupling between bounded contexts as much as possible,
+but a shared communication format always induces some coupling.
+The two contexts will need to agree on a common format for them in order
+for communication to be successful.
 
+Who gets to decide the contract? There are 3 patterns:
+    1. Consumer driven
+        Contract is dictated by a consumer (when consumer plays important business role)
+    2. Provider driven
+        Contract is dictated by a provider (better decoupling)
+    3. Anti-Corruption Layers
+        ACL prevents the internal, pure domain model from being `corrupted`
+        by knowledge of the outside world. This is a common pattern when
+        using a third-party component.
 
+## Workflows Within a Bounded Context
+You can imagine a workflow in a context as a single function that has an input and 
+an output to and from outside world.
 
+1. Workflow Inputs and Outputs
+    The input to a workflow is always the data associated with a command, and
+    the output is always a set of events to communicate to other contexts.
 
+    In the diagram above, it’s important to note that a workflow function does
+    not “publish” domain events – it simply returns them
+
+2. Avoid Domain Events Within a Bounded Context
+    In functional design we `append` event listeners to a context, 
+    we don't listen to events inside the same context (as you would do in OOP)
+    because it creates hidden dependencies.
+
+## Code Structure Within a Bounded Context
+With traditional approach you design by layers. One `big drowback` is that layered
+architecture violates “code that changes together, belongs together” principle.
+Because some `change to a workflow` would touch `all` the layers.
+
+Better ways is to switch to `vertical slices`, where each workflow contains all
+the code it needs to get its job done, and when the requirements change for
+a workflow, only the code in that particular vertical slice needs to change.
+
+1. The Onion Architecture
+    Let’s instead put the `domain code at the center`, and then have the other
+    aspects be assembled around it using the rule that each layer can only depend
+    on `inner` layers, not on layers further out.
+
+2. Keep I/O at the Edges
+    A major aim of functional programming is to work with functions that are
+    predictable and easy to reason about `without` having to look `inside` them.
+
+    But then, how do we read or write data? The answer is to push any I/O to the edges
+    of the onion – to only access a database, say, at the `start or end` of a workflow
+    the core domain model is only concerned with business logic, while persistence
+    and other I/O is an infrastructural concern, which is an outer layer of the 
+    architecture. This helps you design system ingnoring the database.
+    
+# Modelling the Domain <<<
+By the end of this part, you’ll know how to write concise code that does double duty:
+1. `documentation` of the domain
+2. compilable framework that the rest of the implementation can build upon
+    
 
 
 
