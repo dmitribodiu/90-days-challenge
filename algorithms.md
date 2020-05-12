@@ -348,7 +348,7 @@ end the soonest. A greedy algorithm is simple: `at each step, pick the optimal m
 just pick the most expensive item every time.
 
 Sometimes all you need is an algorithm that solves the
-problem pretty well. And that’s where greedy algorithms shine
+problem good enough. And that’s where greedy algorithms shine
 
 `Dijkstra's` algorithm is a `greedy` algorithm. It always looks at the shortest path.
 
@@ -360,7 +360,7 @@ A hash function is a function where you put in a string and you get back a numbe
 
 > How to use hash function
 Get a number => Save value in array with index you get from hash function.
-he hash function tells you exactly where the price is stored, so you
+The hash function tells you exactly where the price is stored, so you
 don’t have to search at all! Put a `hash function and an array together`,
 and you get a data structure called a hash table
 
@@ -379,11 +379,10 @@ where collision occured.
 
 **Performance**
 `load factor` = N(items) / N(slots), to reduce the load factor you
-create a new array that’s bigger. The rule of thumb is to make an
+create a `new` array that’s bigger. The rule of thumb is to make an
 array that is `twice the size`. A good rule of thumb is, resize when your
 load factor is greater than 0.7
 It’s also very important for hash functions to have a good `distribution`.
-
 
 # Implementing Lexicon
 ## Using Multiway Tries (trie stands for retrieval)
