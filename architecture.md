@@ -945,7 +945,7 @@ is a `sign of a bad design` (architecture should remain constant)
     Most systems have as few as two or three core use cases,
     and the number seldom exceeds six.
     1. Finding the core use cases
-        A  core use case will almost always be some kind of an abstraction of other
+        A  core use case will almost always be some kind of an `abstraction` of other
         use cases, and it may even require a new term or name to differentiate it from
         the rest. The whole point of requirements analysis is
         to `recognize the core use cases` in customer requirements.
@@ -975,10 +975,10 @@ is a `sign of a bad design` (architecture should remain constant)
         cases and the areas of volatility. However, that is not design—that is
         requirements gathering and requirements analysis, which may be very
         time-consuming indeed. Design is not time-consuming if you know what you are doing
-        You can design in a matter of days, and with practice even faster.
+        You can design in a matter of days, and with practice even faster (hours).
 
 ## There's no feature
-> Features are always and everywhere `aspects of integration`, not implementation.
+> Features are always and everywhere `aspects of integration, not implementation`.
 
 Integrating all of automobile parts yields the feature - transporting you from point A to 
 point B. You can process text on your laptop but is there any box in
@@ -987,7 +987,7 @@ the architecture of the laptop called Word Processing?
 The laptop provides the feature of word processing by integrating the keyboard,
 the screen, the hard drive, the bus, the CPU, and the memory.
 
-You never should implement feature, you have to impolement everything that combined
+You never should implement feature, you have to implement everything that combined
 will provide the feature and much more. This will make your design solid.
 
 ## Handling change
@@ -1085,7 +1085,6 @@ it must `never` be used at the expense of `usability`.
             get accounts/ - [{"id": "0001234567"}]
             get transfers/ - [{"id": "0005232235"}]
             
-        
     Basically, `every bit` of an API’s data `must be consistent`.
 
 2. Designing consistent goals
@@ -1098,11 +1097,11 @@ it must `never` be used at the expense of `usability`.
     
 3. The four levels of consistentcy
     1. Consisntecy within API
-    2. Consistency across organization APIs
-    3. Consistency with the domain of an API
+    2. Consistency with the domain of an API
         For marine navigation domain you would not use kilometers but 
         nautical miles instead. For language processing you would use `token` instead
         of word.
+    3. Consistency across organization APIs
     4. Consistency with the rest of the world
 
 4. Copying others: Following common practices and meeting standards
@@ -1123,7 +1122,7 @@ it must `never` be used at the expense of `usability`.
 5. Being consistent is hard and must be done wisely
     You must formally define your design with rules in a document called the
     “API Design Guidelines”. Even if you are the only API designer in the team
-    it's very helpful becaus `human tend to forget things`
+    it's very helpful because `human tend to forget things`
     
     Once you have your API design cheat sheet and your API directory
     you can concentrate on solving real problems and not waste your time
@@ -1211,7 +1210,7 @@ REST APIs have the discoverable feature in their genes because they use HTTP pro
 
 2. Creating hypermedia APIs
     Imagine a site doesn't have hyperlinks, would it be pleasurable for you
-    to got to site docs and discove all hyperlinks yourself?
+    to got to site docs and discover all hyperlinks by yourself?
     The World Wide Web without its hypermedia links would be quite terrible to use.
     
     Fortunately, this isn’t how it works. Once on a website,you can discover its content
@@ -1471,7 +1470,7 @@ because it’s a fact that can’t be changed.
     Once we have a number of these events on the wall, we might ask: “`What`
     made these domain events happen?” We call these requests Commands in DDD terminology
     
-    `An event triggers a command`, which initiates some business workflow.
+    `A command triggers an event`, which initiates some business workflow.
     The output of the workflow is some more events. And then, of course, those events can
     trigger further commands.
 
@@ -1569,7 +1568,7 @@ gathering and not impose our own technical ideas on the domain
 
 ## Documenting the Domain
 how should we record these requirements?
-We could use some vidual language like UML or some language like yaml.
+We could use some visual language like UML or some language like yaml.
 
 ## Representing Complexity in our Domain Model
 1. Representing Constraints
@@ -1590,7 +1589,7 @@ A software architecture consists of `four levels`:
     1. system context
         top level representing the entire system
         system context comprises of `containers`
-    2. containers 
+    2. container 
         deployable units such as a website, a web service, a database
         each container comprises of a number of `components`
     3. component
@@ -1614,8 +1613,7 @@ You could choose `message queue` communication to reduce coupling.
     In general, an event used for communication between contexts will not just
     be a simple signal, but will also contain all the data that the downstream
     components need to process the event. (if data is too large, you could pass a ref.)
-    
-    To transfer data you could use DTC's (Data transfer objects)
+    To transfer data you could use DTO's (Data transfer objects)
 
 2. Trust Boundaries and Validation
     At the input gate, we will `always validate` the input to make sure that it conforms
@@ -1662,7 +1660,8 @@ an output to and from outside world.
 
 ## Code Structure Within a Bounded Context
 With traditional approach you design by layers. One `big drowback` is that layered
-architecture violates “code that changes together, belongs together” principle.
+architecture violates one very important rule: 
+    “code that changes together, belongs together”.
 Because some `change to a workflow` would touch `all` the layers.
 
 Better ways is to switch to `vertical slices`, where each workflow contains all
@@ -1682,40 +1681,326 @@ a workflow, only the code in that particular vertical slice needs to change.
     of the onion – to only access a database, say, at the `start or end` of a workflow
     the core domain model is only concerned with business logic, while persistence
     and other I/O is an infrastructural concern, which is an outer layer of the 
-    architecture. This helps you design system ingnoring the database.
-    
+    architecture. This helps you design system around domain instead of around database.
+
+# ■■■ Day 13
 # Modelling the Domain <<<
 By the end of this part, you’ll know how to write concise code that does double duty:
 1. `documentation` of the domain
 2. compilable framework that the rest of the implementation can build upon
     
+# Understanding Types
+## Understanding Functions
+function is a kind of black box with an input and an output.
 
+1. Type Signatures
+    inputType -> outputType descriptions is called `type signature`
 
+2. Functions with Generic Types   
+    
+## Types and Functions
+A type in functional programming is not the same as a class in object-oriented
+programming. It is much simpler.
 
+From a conceptual point of view, the things in the type can be any kind of
+`thing`, real or virtual. functions are things too, so we can use sets of functions
+as a type as well.
 
+## Composition of Types
+Is the `foundation` of functional design.
+In the functional programming world, we use composition to build new
+functions from smaller functions and new types from smaller types.
 
+1. New types from smaller types 
+    You can create a new type by `AND`int or `OR`ing them. (as in TS)
+    The types that are built using AND are called _Product Types_
+    The types that are built using OR are called _Sum Types_
 
+2. Simple types
+    We will often define a choice type with only one choice
+    
+3. Algebraic Type Systems
+    an algebraic type system is simply one where every
+    compound type is composed from smaller types by ANDing or ORing them together
 
+## Building a Domain Model by Composing Types
+```fs
+type CardType =
+    Visa | Mastercard // create an OR type 
+    
+type CreditCardInfo = { // 'AND' type (record)
+    CardType : CardType // or type inside of AND type
+    CardNumber : CardNumber
+}
+```
 
+Now to document the actions that can be taken, we define
+`types that represent functions` (separately, unlike in oop)
 
+```fs
+type PayInvoice = UnpaidInvoice -> Payment -> PaidInvoice
+// Which means: given an UnpaidInvoice and then a Payment, we can create a PaidInvoice.
 
+type ConvertPaymentCurrency = Payment -> Currency -> Payment
+// convert payment from one currency to another
+```
 
+## Modeling Optional Values, Errors, and Collections
+1. Optional values
+    We can model this with a choice type called Option, defined like this:
+    ```fs
+    type Option<'a> =
+        | Some of 'a
+        | None
+    ```
+    Option type can be used to wrap any other type. To indicate optional data in
+    the domain model then, we wrap the type in Option<..>
+    
+2. Modelling errors
+    Even is programming language does support throwing exceptions, we will often want
+    to `explicitly` document in the type signature the fact that a failure can happen.
 
+    This calls out for a choice type with two cases
+    ```fs
+    type Result<'Success,'Failure> =
+        | Ok of 'Success    // may return result
+        | Error of 'Failure // may throw error
+    ```
+    To indicate that a function can fail, we `wrap` the output with a Result type.
+    
+3. Modeling No Value at All
+    Most programming languages have a concept of `void`
+    In functional programming function must always return something.
+    In f# this "something" is 'unit', When you see the unit type in a signature,
+    that’s a strong indication that there are side-effects. 
+    
+4. Modeling Lists and Collections
+    For domain modelling it's recommended to use some kind of 
+    `fixed size immutable collection`
 
+## Organizing Types in Files and Projects
+A standard approach is to put all the domain types in one file
 
+# Domain Modelling with Types
+Can we use the source code directly like documentation, and
+avoid the need for UML diagrams and the like? The answer is `yes`
+We’ll see that types can replace most documentation
 
+## Modeling Simple Values
+You can `wrap` simple values in a type definition like this:
+```fs
+type UnitQuantity = UnitQuantity of int
+// wrapping a type helps differentiate between different int's that may have 
+// different constraints
+```
 
+1. Working with Single Case Unions
+    Passing different wrapper type of the same inner type shoult not be possible. 
 
+2. Constrained Values
+    Almost always, the simple types are `constrained` in some way
+    
+3. Performance Issues with Simple Types
+    Wrapping primitive types into simple types is a `great way` to ensure type
+    safety and prevent many errors at compile time. But it may cost you performance.
+    
+    To prevent it you can use :
+        1. Type alias (instead of simple types (in F#))
+        2. Use structs instead of types (in F#)
 
+    It’s generally best to model your domain in the most
+    `straightforward` way first, and only then work on tuning and optimization.
 
+## Modeling Complex Data
+1. Modeling with Record Types
+    Instead of AND types you can use record (objects in JS)
+    
+2. Modeling Unknown Types   
+    If you don't know all domain type constraints, this is not a problem –
+    you can represent types of unknown structure with best guesses,
 
+3. Modeling with Choice Types
+    Choise can be represented in TS with OR types
 
+## Modeling Workflows with Functions
+For example, if we have a workflow step that validates an order form, we might
+document it as:
+```fs
+type ValidateOrder = UnvalidatedOrder -> ValidatedOrder
+```
 
+1. Working with Complex Inputs and Outputs
+    + If you need to return multiple values you can use a record.
+    + If you find yourself wanting to return different values from the same function
+        reconsider your design.
+    + If you need to pass multiple inputs you can also use a record 
+        (but sometimes, a couple of parameters would feet better)
 
+2. Documenting Effects in the Function Signature
+    + If function may throw and error you should find a way to document it 
+        in it's signature. 
+    + If a function is async, it should be obvious as well
+    + If a function is both async and can throw an error (as most functions)
+        result type definition can get ugly, so you can create a type 
+        `alias` for this case
+    
+## A Question of Identity: Value Objects
+In DDD terminology, objects with a persistent identity are called `Entities` and
+objects without a persistent identity are called `Value Objects`.
 
+Value Objects have no identity, e.g name "Fransua" is the same as another name "Fransua"
+because two strings are `interchangeable`.
+So you can tell that these are Value Objects in the domain
 
+For value object we don't need any special _comparison logic_
 
+## A Question of Identity: Entities
+In a business context, Entities are often a document of some kind: Orders,
+Quotes, Invoices etc. 
+Manufacturer may have identity codes on a smartphone.
+Even is customer changes battery on a phone it should still be the same phone for 
+manufacturer. (it case of warranty)
 
+Entities need to have a `stable identity` despite any changes,
+and therefore, when modeling them, we need to give them a unique identifier or key
+
+In FP Entities and Value Object should be immutable and that's a great thing.
+
+## Aggregates
+Aggregate is a type that comprises of other types. Such as types are immutable
+`we can't change inner type` without creating a new copy of an agregate.
+
+1. Aggregates Enforce Consistency and Invariants
+    An aggregate plays an important role when data is updated.
+    when one part of the aggregate is updated, other parts might also need to be
+    updated to ensure consistency
+
+    Aggregate contains logic about it's inner fields, e.g when you want to 
+    delete some value it may prevent you from doing it if it aligns with business rules
+    of the aggregate.
+    
+2. Aggregate References
+    But aggregates should only enforce consistency over it's simple types,
+    complex types that are in turn aggregates as well can enforce consistency
+    themselves. 
+    A much better design in this case is just to store a `reference`
+    to another aggregate.
+    
+    e.g you want to access info about customer from order.
+    in this case you clearly should not store customer as a field, reference would 
+    make much more sence
+
+3. Aggregates are the basic unit of percistence
+    If you want to load or save objects from a database, you should
+    load or save whole `aggregates`.
+    
+# Integrity and Consistency in the Domain
+We want to make sure that any data in domain is valid and consistent.
+The goal is to create a `bounded context` that always contains data
+we can trust, as distinct from the untrusted outside world.
+
+If we can be sure that all data is always valid, the implementation can stay `clean`
+and we can avoid having to do defensive coding.
+
+1. Integrity
+    Means that a piece of data follows the correct business rules.
+2. Consistency
+    means that different parts of the domain model agree about facts.
+    e.g: 
+        total must be the sum of parts.
+        When an order is placed, a corresponding invoice must be created.
+        (if invoice is not created -> the data is inconsistent)
+        
+> the more information we can capture in the type system, the less documentation is needed
+
+## Integrity of Simple Values
+When creating simple values (custom types for simple values)
+the whole point of doint it is to add `constraints`.
+When we have constraints we don't have to check the value multiple times.
+
+The constraints should be enforced when the type is created.
+(You should put type creation logic near the type)
+
+## Enforcing Invariants with the Type System
+An `invariant` is a condition that stays true no matter what else happens.
+Let's suppose that there must always be at least one order line in an order
+To make sure that a list is not empty, we just need to define a `NonEmptyList` type.
+The definition itself requires that there must always be at least one element,
+so a NonEmptyList is guaranteed never to be empty.
+With this change the constraint “there is always at least one order line in an
+order” is now enforced `automatically`.
+
+## Capturing Business Rules in the Type System
+Can we document business rules using just the type system?
+
+Let's suppose we want to introduct different emails: verivied and unverified 
+and only send reset-password mails to verified emails.
+We could just add `verified` field to the email entity,
+but this approach has a number of serious `problems`:
+    1. It’s not clear when or why the IsVerified flag should be set or unset.
+        It's easy to forget to update the property when it's needed by the business rules
+    2. There's possibility of security breach.
+        
+So what should you do?
+When domain experts talk about “verified” and “unverified” emails,
+you should model them as `separate things`.
+```fs
+// bad, we still have to check manually, and furthermode, the type may be corrupted
+type CustomerEmail =
+    | Unverified of EmailAddress
+    | Verified of EmailAddress
+    
+// better way
+type CustomerEmail =
+    | Unverified of EmailAddress
+    | Verified of VerifiedEmailAddress
+```
+This is an example of the important design guideline: 
+    `make illegal states unrepresentable`
+That means that if I have a new email address, I have to construct a CustomerEmail
+using the Unverified case. and `the only way` I can get a VerifiedEmailAddress
+is from the email `verification service` itself.
+
+We are trying to capture business rules in the type system.
+If we can do this properly, invalid situations cannot ever exist in the code and
+we never need to write unit tests for them – we have `compile-time unit tests` instead.
+
+Another important benefit of this approach is that it actually documents the domain better
+`Rather than having a simplistic EmailAddress that tries to serve two roles`
+we have two distinct types.
+
+With this definition, we don’t have to worry about someone accidentally
+passing in a normal EmailAddress and breaking the business rule because they
+haven’t read the documentation. (genius)
+
+## Consistency
+“Consistency” as described here is a business term, not a technical one, and
+what consistency means is always context dependent.
+Consistency does place a large burden on the design though, and can be
+costly, so we want to avoid the need for it if we can.
+
+1. Consistency Within a Single Aggregate
+    It is clear that the only component that “knows” how to preserve consistency
+    is the top-level aggregate. This is a good reason for
+    doing all updates at the aggregate level rather that at the line level
+
+2. Consistency Between Different Contexts
+    e.g: When user adds word with a new tag, new tag must be created, if a word is
+    created but tag is not, the data is inconsistent
+    
+    You could first ask "tagService" to create needed tags and only then add the 
+    work with the needed tag. This is a perfectly valid solution 
+    
+    But sometimes it may be better to allow inconsistent data is the possibility of
+    error is too big and enforcing consisncy would decrease speed of transactions 
+    significantly. 
+    
+
+You shouldn’t feel obligated to reuse aggregates if it
+doesn’t make sense to do so. If you need to make a new aggregate like this
+just for one use-case, go ahead.
+    
+# Modeling Workflows as Pipelines
 
 
 

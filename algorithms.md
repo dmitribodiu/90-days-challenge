@@ -229,7 +229,7 @@ we call AVL Trees "self-balancing."
 
 **Note** sometimes a single rotation fails to balance the tree.
 To combat this problem, we will introduce the `double rotation`:
-    1. Transfor a kink (curve) into a more straight line with one rotation
+    1. Transform a kink (curve) into a more straight line with one rotation
     2. Balance the staright line with another rotation.
 ```
 /
@@ -282,10 +282,10 @@ B-Tree should satisfy the following properties:
     You insert values into a node, when you have more than 2b - 1 values in a node
     get an item in the center of the ordered array that contains values
     and create a new parent node with this value, you already have a parent
-    node, add to it this value, if i'ts full, take the middle value from there and 
+    node, add to it this value, if its full, take the middle value from there and 
     go upwards again to create parent/add values to existing.
 `Deletion`
-    When deleting you need to consider many:
+    When deleting you need to consider many cases:
         1. Deleting a leaf value - just delete
         2. Deleting non-leaf value 
         3. Delete the last value in a child node 
@@ -413,15 +413,6 @@ other variables in your code that reference that html element, otherwise the
 element will be deleted in html but still remain in memory, because some variable 
 points to it.  
 
-## Limiting object references
-Don't pass the whole object into a function, because it makes function download
-the whole object on the stack. Instead pass only parameters you need. 
-(Do it for large objects)
-```js
-my_func(myobj);// no-no if an object is big
-my_func(myobj.property); // do this instead
-```
-
 # Recursion
 ## Fibonacci with tail recursion
 A tail recursive function is a recursive function in which the recursive call is the last
@@ -460,7 +451,7 @@ exampleSet.has(2); // true
 /*utility functions*/
 function setIntersection(set1, set2) {
     /*you need to transform a set into an array to access array's methods*/
-    [...set1].map(elem => set2.has(elem) ? elem : null).filter(elem => elem);
+    return [...set1].filter(elem => set2.has(elem));
 }
 function isSupersetOf(super, sub) {
     return [...sub].every(elem => super.has(elem));
@@ -472,11 +463,12 @@ function unite(set1, set2) {
     return newSet;
 }
 function XOR(set1, set2) {
-    const xor = new Set();
-    for(let elem of [...set1, ...set2])
-        if( !(set1.has(elem) && set2.has(elem)) ) 
-            xor.add(elem);
-    return xor;
+    // const xor = new Set();
+    // for(let elem of [...set1, ...set2])
+    //     if( !(set1.has(elem) && set2.has(elem)) ) 
+    //         xor.add(elem);
+    // return xor;
+    return [...set1, ...set2].filter(e => !(set1.has(e) && set2.has(e)));
 }
 ```
 
@@ -493,7 +485,7 @@ function XOR(set1, set2) {
 with items you have until the item finds it's place)
 
 > Count sort O(n)
-This sort doesn't compare values and works only for integers of a small range.
+This sort doesn't compare values and works only for integers of a `small range`.
 How it works? It counts number of occurences of every number in an array and 
 then recreates array from scratch by putting numbers in an array the amount of 
 times it saw it before.
@@ -515,20 +507,19 @@ times it saw it before.
     1. Use binary search
 ```js
 function getSqrt(n) {                             // sr -> square root
-    if(n == 1 || n == 0 ) return n;
+    if(n == 1 || n == 0 ) return n; 
     if(n%1 != 0) 
-        throw new Error("Only integers allowed");
+        throw new Error("Only integers allowed"); // base cases
     
     let sr = 1;
     let learning_rate = 2;
     
     while((sr**2).toFixed(5) != n) {
         let try_sr = sr + learning_rate;
-        if(try_sr**2 < n) {
+        if(try_sr**2 < n) 
             sr = try_sr;
-        } else {
+         else 
             learning_rate /= 2;
-        }
     }
     return sr;
 }
