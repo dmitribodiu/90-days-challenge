@@ -184,14 +184,31 @@ Is very easy.
 You may want to separate pure function testing from impure function testing
 because they usually care about different things.
 
+# ■■■ Day 14
 # Programming declaratively
-
-
-
-
-
-
-
+## Transformations
+1. Reducing
+    Reducing is much easier to read than hard-coded loops.
+    1. Sum an array
+        To reduce an array, you must provide a dyadic function(with two args)
+        and an initial value
+        ```js
+        const myArray = [22, 9, 60, 12, 4, 56];
+        const sum = (x, y) => x + y;
+        const mySum = myArray.reduce(sum, 0); // 163 or ERROR if an array is empty
+        
+        const sum = (x, y) => (x || 0) + (y || 0); // fix
+        ```
+    2. Find average
+        ```js
+        const average = (a, i) => b => (a += b) / ++i;
+        const avg = arr.reduce(average(arr[0], 1))
+        let sn = average(5, 1); // initialization -> average, total items
+        ```
+    3. Calculating several values at once
+        You could return an array instead of a single value.
+    
+2. Folding left and right
 
 
 

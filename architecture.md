@@ -2000,7 +2000,271 @@ You shouldn’t feel obligated to reuse aggregates if it
 doesn’t make sense to do so. If you need to make a new aggregate like this
 just for one use-case, go ahead.
     
-# Modeling Workflows as Pipelines
+# ■■■ Day 14
+# Understanding Functional programming <<<
+## What is FP?
+we express what to do rather than how to do it
+
+1. Containers, Functors, Lists, and Streams
+    Functor is a data structure that provides an interface for itarating all it's members.
+    
+2. Declarative vs Imperative
+    Declarative programs abstract the flow control process
+    
+    Imperative code frequently utilizes statements. A statement is a piece
+    of code which performs some action.    
+
+    Declarative code relies more on expressions.
+    An expression is a piece of code which evaluates to some value.
+
+Functional programming `favors`:
+    + pure functions
+    + immutability
+    + functions composition over imperative flow control
+    + generics
+    + declarative code
+    + `expressions` over statements
+
+3. Currying
+    A curried function is a function that takes multiple parameters `one at a time`
+    It takes a parameter, and returns a function that takes the next parameter,
+    and so on until all parameters have been supplied
+
+4. Composition
+    Of course you can compose functions. Function composition is the
+    process of passing the return value of one function
+    as an argument to another function: `f(g(x))`
+
+## Curry and Function Composition
+1. What is?
+    A curried function is a function that takes multiple arguments one at a time.
+    ```js
+    const add = a => b => a + b;
+    ```
+2. What is partial application?
+    A partial application is a function which has been applied to some,
+    but not yet all of its arguments.
+    
+    Partial applications can take as many or as few arguments a time as desired.
+    Curried functions on the other hand always return a unary function:
+    a function which takes one argument.
+
+3. What is point-free style?
+    Point-free style is a style of programming where function definitions
+    do not make reference to the function’s arguments.
+    ```js
+    const add = a => b => a + b;
+    
+    const inc = add(1);
+    const inc10 = add(10);
+    
+    inc(3); // 4
+    inc10(55); // 65
+    ```
+    This ways you have one argument predefined.
+
+4. Why do we curry?
+    Curried functions are particularly useful in the context of `function composition`.
+    
+5. How to debug point-free style functions? - `Trace`
+    ```js
+    const pipe = (...fns) => x => fns.reduce((y, f) => f(y), x);
+    const trace = label => value => { console.log(label+':'+value); return value; }
+    const i = n => n + 1;
+    const d = n => n * 2;
+    
+    const h = pipe(
+        g,
+        trace('after g'),
+        f,
+        trace('after f'),
+    );
+    ```
+
+6. Curry + Composition
+    The reason that curried functions are so convenient for function composition is
+    that they transform functions which expect multiple parameters into functions
+    which can take a single argument, allowing them to fit in a function 
+    composition pipeline.
+
+## Abstraction & Composition
+> Software solutions should be decomposable into their component parts,
+> and recomposable into new solutions, without changing the internal component
+> implementation details.
+
+1. Abstraction is simplification
+    The process of abstraction has two main components:
+        1. `Generalization` is the process of finding similarities
+        2. `Specialization` is the process of using the abstraction,
+            supplying only what is different
+
+2. Abstraction in Software
+    Abstraction in software takes many forms: {algorithms, data str, frameworks}
+    Functions make great abstractions
+
+3. Abstraction through composition
+    The most useful functions for abstraction in software are `pure` functions
+
+4. How to Do More with Less Code
+    Abstraction is the key. Starting with useful abstractions as our building blocks,
+    we can construct fairly complex behavior with very little new code. E.g :
+    ```js
+    const add => a => b => a+b; // add is an abstraction
+    const inc => add(1); // inc is a specialization 
+    ```
+
+5. Characteristics of good abstractions
+    + Composable
+    + Reusable
+    + Independent
+    + Concise
+    + Simple
+
+## Functors & Categories
+A functor data type is something you can `map` over. It’s a container which has
+a map operation which can be used to apply a function to the values inside it.
+Using a functor is easy — just call .map().
+
+1. Why Functors?
+    + iteration abstraction
+    + easy for composition
+    + can be used for streams of data as well as for arrays
+
+## Monads
+A monad is a way of composing functions that require context in addition
+to the return value. Monads can compose:
+```js
+a => M(b), b => M(c)  //becomes
+a => M(c)
+```
+
+Monad is a `type` of functor. 
+    Functor -> implements map 
+    Monad -> implements `flatMap` as well as map
+    
+What is flatMap?
+    Example:
+        Streams are functors so you can use map on them.
+        But is stream contains promises you will need to first unfold promise 
+            into value.
+        And only then can you map the value.
+    FlatMap not only maps, but also `unfolds` the values contained in the
+    collection before mapping. Promises are kinda like monads.
+
++ `Map` means "apply a function to a and return b"
++ `Context` is the computational detail of the monad. 
+    The functor or monad supplies some computation to be performed 
+    during the mapping process. The point of functors and monads is to abstract that
+    context away so we don’t have to worry about it while we’re composing operations.
++ `Type lift` is something like wrapping value in a Promise
++ `Flatten` is an opposite of type lift, "unwrap"
++ `flatMap` is the operation that defines a monad.
+    It combines map and flatten into a `single` operation
+    used to compose type lifting functions (a => M(b)).
+
+If your map function lifts a type, e.g:
+```js
+const echo = n => v => Array.from({ length: n }).fill(x);
+```
+You need to flatMap it in order to map it later.
+Otherwise you will get collection of lifted types.
+```js
+const coll = [1,2,3];
+coll.map(echo(3))
+    .map(double); // won't work, double gets an array as parameter
+
+coll.flatMap(echo(3))   // 1,1,1,2,2,2,3,3,3
+    .map(double);       // works as intended
+
+// vague implementation
+class Collection {
+    flatMap(f) {
+        [...this.collection].reduce((b, v) => [b,...f(v)], []); // base, value
+    }
+}
+```
+
+1. What monads are made of?
+    A monad is based on a simple symmetry
+    Combine map(typeLifting) with flatten(typeDescending), and you get `flatMap`
+    ```js
+    const Monad = value => ({
+        flatten: f => f(value),
+        flatMap (f) {
+            return this.flatten(a => Monad.of(f(a)));
+        }
+    });
+    Monad.of = x => Monad(x);
+    ```
+
+## OOP history
+Lambda calculus represents a `top-down`, function application approach to computation
+Turing machine represents a bottom-up, imperative (step-by-step) approach to computation.
+
+Both imperative programming and functional programming have their roots in the mathematics
+of computation theory, predating digital computers.
+
+The big idea is `messaging`.
+
+1. Essence of OOP
+    + encapsulating state
+        The only way to affect another object’s state is by sending a message.
+        
+    + decoupling through message passing
+        the message sender is only loosely coupled to the message receiver,
+        through the messaging API.
+        
+    + runtime adaptability (dynamic binding)
+        you can swap modules at runtime.
+
+2. What is not OOP
+    + classes
+    + polymorphism
+    + recognizing class as a "type"
+
+## Functional mixins
+Functional mixins are composable `factory` functions which connect together in a pipeline
+Simply pass any arbitrary object into a
+mixin, and an enhanced version of that object will be returned.
+Advantages:
+    + encapsulation
+    + inheriting private state
+    + multiple source inheritance
+        + last in wins
+    + no base-class requirement
+
+Mixins are a `form of object composition`, where component features get mixed
+into a composite object so that properties of each mixin become properties
+of the composite object.
+
+## Why composition is harder with classes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
