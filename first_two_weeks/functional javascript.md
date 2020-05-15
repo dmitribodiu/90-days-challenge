@@ -57,7 +57,7 @@ Solutions:
                 called = !called; 
                 return fun(...args) 
             } else {
-                return after(...args); // calls another function after the first call
+                return after(...args); // calls different function after the first call
             }
         };
     }
@@ -104,7 +104,7 @@ fetch("some/remote/url")
 ```
 This programming style is called `pointfree` style or tacit style,
 and its main characteristic is that you `never` specify the arguments
-for each function application. Advantega is `cleaner code`.
+for each function application. Advantage is `cleaner code`.
 
 ## Using functions in FP ways
 1. Injection
@@ -144,7 +144,7 @@ Function is `impure` if it changes or tries to get access to anything that is
 not it's arguments, or calls another function that does that.
 > If a function uses an impure function, it immediately becomes impure itself.
 
-Another reason for imputity may imply innner function state, which may 
+Another reason for imputity may imply inner function state, which may 
     change output of the functions with the same arguments.
 Another reason for impurity is changing arguments passed by `reference`.
 
@@ -174,10 +174,10 @@ all of them isn't really feasible.
 2. Injecting impure functions
     If a function becomes impure because it needs to call another function
     that is itself impure, a way around this problem is to `inject` the required function.
-    Injection allows for easier later `testing`.
+    Injection allows for easier later `testing` (using "mocking" technique)
 
 3. Using just the result of impure functions
-    You can just pass the result from functions, which will be just value(s).
+    You can just pass the result from impure functions, which will be just value(s).
 
 ## Pure function testing
 Is very easy.
@@ -207,103 +207,111 @@ because they usually care about different things.
         ```
     3. Calculating several values at once
         You could return an array instead of a single value.
+    4. Folding left and right
+        The complementary reduceRight() method works just as reduce() does, only starting at
+        the end and looping until the beginning of the array.
+        There are cases where it's useful, e.g reversing a string.
+        ```js
+        const sum = (a, b) => a + b;
+        const reversStr = str => str.split('').reduceRight((b, v) => b + v, '');
+                                                    // or (sum, '')
+        ```
+
+# ■■■ Day 15
+2. Mapping
+    1. Map over loop?
+        + you don't need to write any logic which could cause bugs
+        + you don't need to track "i" variable
+        + new array is produces so your code is pure
+    2. Emulating map with reduce
+        ```js
+        const myMap = (a, f) => a.reduce((b, v) => b.concat(f(v)), []);
+        ```
+    3. Dealing with arrays of arrays
+        In ES2019, two operations were added to JavaScript: `flat`() and `flatMap`().
+        
+        The `flat`() method creates a new array, concatenating all elements of its
+        subarrays to the desired level, which is, by default, 1:
+        ```js
+        const a = [
+            [1, 2],
+            [3, 4, [5, 6, 7]]
+        ];
+        a.flat(); // 1 by default => [1, 2, 3, 4, [5, 6, 7]];
+        a.flat(2); // only numbers
+        ```
+        
+        Basically, what `flatMap`() does is first apply a map() function and then
+        apply flat() to the result of the mapping operation.
+        
+        Emulating flat and flatMap:
+        ```js
+        // concat unflats for us
+        const flatOne = arr => arr.reduce((b, v) => b.concat(v), []); 
+
+3. More general looping
+    Sometimes you need to do a loop, but the required process doesn't really fit
+    map() or reduce(). Use `foreach`.
+
+## Logical higher-order functions
+Meaning using predicate as a higher order function
+(predicate is a function that returns bool)
+
+Where it can be useful?
+    1. Filtering
+    2. Searching
+
+## Working with async functions
+1. Async-ready looping
+    If we cannot directly use methods such as forEach(), map(), and the like,
+        we'll have to develop new versions of our own.
+    1. Looping over async calls
+        ```js
+        const forEachAsync = (a, f) => 
+            a.reduce((b, v) => b.then(() => f(v)), // apply a func. to result
+            Promise.resolve() // base is a resolved promise
+        );
+        // note! calls are not async against one another but rather subsequent
+        ```
+    2. Mapping async calls
+        ```js
+        // use in case the function you want to apply is async and returns a promise
+        const mapAsync = (arr, fn) => Promise.all(arr.map(fn));
+        ```
+    3. Filtering async calls
+        First you need to mapAsync and then when you get an array of bool
+        you filter the first array with a simple filter.
+        ```js
+        const filterAsync = (a, f) => mapAsync(a, f)
+            .then(b => a.filter((_, i) => !!b[i])); 
+        ```
+    4. Reducing async calls
+        ```js
+        const reduceAsync = (a, f, b) => 
+            a.reduce((b, v) => b.then(f), Promise.resolve(b)); // error we need to use v
+
+        const reduceAsync = (a, f, b) => 
+            a.reduce((b, v) => b.then(v2 => f(v, v2)), Promise.resolve(b));
+        ```
+
+## Currying and partial application
+Unary function - one argument
+Binary - two
+Variadic - variable amount
+
+What is currying?
+    Currying is a `process of converting` a
+    function with n number of arguments into a nested unary function
     
-2. Folding left and right
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-s
+Why we need it?
+    It helps us with `abstraction`.
+
+How to implement?
+```js
+const curry = (f, args = []) => 
+    function fn(a) { 
+        (args = args.concat(a)).length == f.length 
+            ? f(args) 
+            : fn;
+    }
+```

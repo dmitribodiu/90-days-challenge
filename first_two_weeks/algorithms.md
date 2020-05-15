@@ -576,6 +576,11 @@ function without_letter(str, letter) {
 
 // another solution is creating an array from string sorting it 
 // and searching for equal subsequent characters
+
+// another solution
+const uc = c => str => !!~str.indexOf(str);
+const us = str => [...str].reduce((b,c,i) => b && uc(c)(str.slice(i)), true);
+// b - base, c - character, i - index, uc - uniq character, us - unique string
 ```
 
 Substitute spaces with `%20`.
@@ -593,6 +598,12 @@ function substituteSpaces(string) {
     
     return newString;
 }
+
+// or
+const subc = a => b => c => c == a ? b : a;
+const sub = a => b => str => [...str].map(subc(a)(b));
+const converter = sub(' ')('%20');
+const newStr = converter(oldStr);
 ```
 
 Check that whether a string is a randomized polindrome.
@@ -615,4 +626,8 @@ function checkForPolindrome(string) {
     
     return numberOfOddNumbers < 2;
 }
+
+//or
+const odd => c => str => [...str].filter(ch => ch == c).length % 2 == 1;
+const polindrome = str => [...str].reduce((b,c) => odd(c)(str) ? ++b : b, 0) < 2;
 ```

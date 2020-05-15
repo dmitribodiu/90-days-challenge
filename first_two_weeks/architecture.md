@@ -1097,7 +1097,7 @@ it must `never` be used at the expense of `usability`.
     
 3. The four levels of consistentcy
     1. Consisntecy within API
-    2. Consistency with the domain of an API
+    2. Consistency with the domain of an API (DDD)
         For marine navigation domain you would not use kilometers but 
         nautical miles instead. For language processing you would use `token` instead
         of word.
@@ -1175,9 +1175,7 @@ we can do that with APIs too.
     
 `Filtering` based on some numeric value
 I.e you want to list cars with mileage between 15,000 and 30,000 miles.
-You can do it this way: 
-    1. add range header specifying 15000 - 30000
-    2. add a header specifying what property should be inspected
+You can do it this way: `Range: miles=15-30`
 
 ## Being discoverable
 Like a table of contents in books, APIs can be designed in order to be discoverable.
@@ -1694,7 +1692,7 @@ By the end of this part, you’ll know how to write concise code that does doubl
 function is a kind of black box with an input and an output.
 
 1. Type Signatures
-    inputType -> outputType descriptions is called `type signature`
+    [inputType -> outputType] description is called `type signature`
 
 2. Functions with Generic Types   
     
@@ -1757,7 +1755,7 @@ type ConvertPaymentCurrency = Payment -> Currency -> Payment
     the domain model then, we wrap the type in Option<..>
     
 2. Modelling errors
-    Even is programming language does support throwing exceptions, we will often want
+    Even if programming language does support throwing exceptions, we will often want
     to `explicitly` document in the type signature the fact that a failure can happen.
 
     This calls out for a choice type with two cases
@@ -1834,7 +1832,7 @@ type ValidateOrder = UnvalidatedOrder -> ValidatedOrder
     + If you find yourself wanting to return different values from the same function
         reconsider your design.
     + If you need to pass multiple inputs you can also use a record 
-        (but sometimes, a couple of parameters would feet better)
+        (but sometimes, a couple of parameters could feet better)
 
 2. Documenting Effects in the Function Signature
     + If function may throw and error you should find a way to document it 
@@ -1881,7 +1879,7 @@ Aggregate is a type that comprises of other types. Such as types are immutable
     
 2. Aggregate References
     But aggregates should only enforce consistency over it's simple types,
-    complex types that are in turn aggregates as well can enforce consistency
+    complex types that are in turn aggregates as well should enforce consistency
     themselves. 
     A much better design in this case is just to store a `reference`
     to another aggregate.
@@ -1890,7 +1888,7 @@ Aggregate is a type that comprises of other types. Such as types are immutable
     in this case you clearly should not store customer as a field, reference would 
     make much more sence
 
-3. Aggregates are the basic unit of percistence
+3. Aggregates are the basic unit of persistence
     If you want to load or save objects from a database, you should
     load or save whole `aggregates`.
     
@@ -1991,10 +1989,9 @@ costly, so we want to avoid the need for it if we can.
     You could first ask "tagService" to create needed tags and only then add the 
     work with the needed tag. This is a perfectly valid solution 
     
-    But sometimes it may be better to allow inconsistent data is the possibility of
+    But `sometimes` it may be better to allow inconsistent data is the possibility of
     error is too big and enforcing consisncy would decrease speed of transactions 
     significantly. 
-    
 
 You shouldn’t feel obligated to reuse aggregates if it
 doesn’t make sense to do so. If you need to make a new aggregate like this
@@ -2210,7 +2207,7 @@ The big idea is `messaging`.
     + encapsulating state
         The only way to affect another object’s state is by sending a message.
         
-    + decoupling through message passing
+    + decoupling through `message` passing
         the message sender is only loosely coupled to the message receiver,
         through the messaging API.
         
@@ -2236,72 +2233,3 @@ Advantages:
 Mixins are a `form of object composition`, where component features get mixed
 into a composite object so that properties of each mixin become properties
 of the composite object.
-
-## Why composition is harder with classes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
