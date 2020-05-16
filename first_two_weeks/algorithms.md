@@ -457,10 +457,11 @@ function isSupersetOf(super, sub) {
     return [...sub].every(elem => super.has(elem));
 }
 function unite(set1, set2) {
-    const newSet = new Set(set1);
-    for(let elem of set2) 
-        newSet.add(elem);
-    return newSet;
+    // const newSet = new Set(set1);
+    // for(let elem of set2) 
+    //     newSet.add(elem);
+    // return newSet;
+    return new Set([...set1, ...set2]);
 }
 function XOR(set1, set2) {
     // const xor = new Set();

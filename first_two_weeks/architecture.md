@@ -212,7 +212,7 @@ the most common way to implement the patten is by using:
     + asynchronous messaging
     + monitoring
     + error handling
-    + better overall load balancing and scalability.
+    + better overall load balancing, scalability and performance.
  
 ## Avoid dependencies and orchestration
 One of the main challenges of the microservices architecture pattern
@@ -237,6 +237,7 @@ you exchange redundancy of code for decoupling.
     Due to separation of business logic into small components, they are easy to test.
 4. Performance - low
     Due to distributed nature of the pattern it's usually not very performant.
+    But you can greatly improve performance by using a message broker.
 5. Scalability - high
     Each component can be individually scaled.
 6. Ease of development - high
@@ -1322,6 +1323,7 @@ intuitive, depending on the `organization` of its data, feedback, and goals.
         "overdraftProtection": true,
         "limit": 100
     }
+    // -- better example
     {
         "overdraftProtection": {
             "active": true,
@@ -1365,20 +1367,20 @@ intuitive, depending on the `organization` of its data, feedback, and goals.
     Now that the groups are sorted, we should also `sort the operations` within the groups
         1. Preserve the order of http verbs: get, post, patch, delete
         2. put same resources together
-        ```openapi
-        get beneficiaries
-        pust beneficiaries
-        get beneficiaries/:id
-        ```
+            ```yaml
+            get beneficiaries
+            post beneficiaries
+            get beneficiaries/:id
+            ```
         3. group resource paths
-        ```
-        /account/accounts/
-        /account/accounts/{id}
-        
-        /transfer/beneficiaries/
-        /transfer/beneficiaries/{id}
-        /transfer/transfers/
-        ```
+            ```yaml
+            /account/accounts/
+            /account/accounts/{id}
+            
+            /transfer/beneficiaries/
+            /transfer/beneficiaries/{id}
+            /transfer/transfers/
+            ```
 
 ## Sizing api
 Objects providing too many functions, too many controls, or too much
@@ -2000,7 +2002,7 @@ just for one use-case, go ahead.
 # ■■■ Day 14
 # Understanding Functional programming <<<
 ## What is FP?
-we express what to do rather than how to do it
+we express `what` to do rather than how to do it (declarative approach)
 
 1. Containers, Functors, Lists, and Streams
     Functor is a data structure that provides an interface for itarating all it's members.
@@ -2079,14 +2081,14 @@ Functional programming `favors`:
     ```
 
 6. Curry + Composition
-    The reason that curried functions are so convenient for function composition is
+    The reason curried functions are so convenient for function composition is
     that they transform functions which expect multiple parameters into functions
     which can take a single argument, allowing them to fit in a function 
-    composition pipeline.
+    composition `pipeline`.
 
 ## Abstraction & Composition
 > Software solutions should be decomposable into their component parts,
-> and recomposable into new solutions, without changing the internal component
+> and recomposable into `new solutions`, without changing the internal component
 > implementation details.
 
 1. Abstraction is simplification
@@ -2106,7 +2108,7 @@ Functional programming `favors`:
     Abstraction is the key. Starting with useful abstractions as our building blocks,
     we can construct fairly complex behavior with very little new code. E.g :
     ```js
-    const add => a => b => a+b; // add is an abstraction
+    const add => a => b => a+b; // add function is an abstraction
     const inc => add(1); // inc is a specialization 
     ```
 
@@ -2128,23 +2130,15 @@ Using a functor is easy — just call .map().
     + can be used for streams of data as well as for arrays
 
 ## Monads
-A monad is a way of composing functions that require context in addition
-to the return value. Monads can compose:
-```js
-a => M(b), b => M(c)  //becomes
-a => M(c)
-```
-
-Monad is a `type` of functor. 
+- Monad is a `type` of functor. 
     Functor -> implements map 
     Monad -> implements `flatMap` as well as map
     
-What is flatMap?
-    Example:
-        Streams are functors so you can use map on them.
-        But is stream contains promises you will need to first unfold promise 
-            into value.
-        And only then can you map the value.
+- What is flatMap?
+    Example: Streams are functors so you can use map on them.
+    But if stream contains promises you will need to first unfold promise 
+    into value and only then can you map the value.
+    
     FlatMap not only maps, but also `unfolds` the values contained in the
     collection before mapping. Promises are kinda like monads.
 
@@ -2161,7 +2155,7 @@ What is flatMap?
 
 If your map function lifts a type, e.g:
 ```js
-const echo = n => v => Array.from({ length: n }).fill(x);
+const echo = n => v => Array.from({ length: n }).fill(v);
 ```
 You need to flatMap it in order to map it later.
 Otherwise you will get collection of lifted types.

@@ -208,8 +208,8 @@ because they usually care about different things.
     3. Calculating several values at once
         You could return an array instead of a single value.
     4. Folding left and right
-        The complementary reduceRight() method works just as reduce() does, only starting at
-        the end and looping until the beginning of the array.
+        The complementary reduceRight() method works just as reduce() does,
+        only starting at the end and looping until the beginning of the array.
         There are cases where it's useful, e.g reversing a string.
         ```js
         const sum = (a, b) => a + b;
