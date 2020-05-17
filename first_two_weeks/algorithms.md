@@ -530,7 +530,7 @@ function getSqrt(n) {                             // sr -> square root
 # Trees
 ## Tree traversal
 1. Pre-order traversal (depth-first parent first)
-2. In-order traversla (form the smallest number to the biggest
+2. In-order traversal (form the smallest number to the biggest
     (using `successor` finding algorithm)
 3. Post-order traversal (depth-first childrent first)
 4. Level-order traversal (breadth-first)
@@ -575,7 +575,7 @@ function without_letter(str, letter) {
     return result;
 }
 
-// another solution is creating an array from string sorting it 
+// another solution is creating an array from string 
 // and searching for equal subsequent characters
 
 // another solution
@@ -602,11 +602,11 @@ function substituteSpaces(string) {
 
 // or
 const subc = a => b => c => c == a ? b : a;
-const sub = a => b => str => [...str].map(subc(a)(b));
-const converter = sub(' ')('%20');
+const subs = a => b => str => [...str].map(subc(a)(b)).join();
+const converter = subs(' ')('%20');
 const newStr = converter(oldStr);
 ```
-
+ 
 Check that whether a string is a randomized polindrome.
 ```js
 function checkForPolindrome(string) {
@@ -629,6 +629,7 @@ function checkForPolindrome(string) {
 }
 
 //or
-const odd => c => str => [...str].filter(ch => ch == c).length % 2 == 1;
-const polindrome = str => [...str].reduce((b,c) => odd(c)(str) ? ++b : b, 0) < 2;
+const timesInStirng = c => str => [...str].reduce((b, v) => b + +(c == v), 0);
+const odd = n => !!(n % 2)
+const polindrome = str => [...str].reduce((b,c) => b + +odd(timesInString(c)(str)), 0) < 2
 ```

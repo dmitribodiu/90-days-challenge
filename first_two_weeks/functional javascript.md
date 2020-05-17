@@ -277,21 +277,23 @@ Where it can be useful?
         ```js
         // use in case the function you want to apply is async and returns a promise
         const mapAsync = (arr, fn) => Promise.all(arr.map(fn));
+        // this way promises from function will be unfolded automatically
         ```
     3. Filtering async calls
         First you need to mapAsync and then when you get an array of bool
         you filter the first array with a simple filter.
         ```js
-        const filterAsync = (a, f) => mapAsync(a, f)
+        const filterAsync = (a, f) => Promise.all(arr.map(f))
             .then(b => a.filter((_, i) => !!b[i])); 
         ```
     4. Reducing async calls
         ```js
         const reduceAsync = (a, f, b) => 
             a.reduce((b, v) => b.then(f), Promise.resolve(b)); // error we need to use v
-
+                                                            // now we only use b
         const reduceAsync = (a, f, b) => 
-            a.reduce((b, v) => b.then(v2 => f(v, v2)), Promise.resolve(b));
+            a.reduce((b, v) => b.then(b => f(b, v)), Promise.resolve(b));
+            // don't forget that for reduce you need a dyadic function
         ```
 
 ## Currying and partial application
@@ -300,17 +302,17 @@ Binary - two
 Variadic - variable amount
 
 What is currying?
-    Currying is a `process of converting` a
-    function with n number of arguments into a nested unary function
+    Currying is a `process of converting` a function with n number of arguments
+    into a nested unary function
     
 Why we need it?
     It helps us with `abstraction`.
 
 How to implement?
 ```js
-const curry = (f, args = []) => 
+const curry = (f, args = []) =>  // store arguments in closure
     function fn(a) { 
-        (args = args.concat(a)).length == f.length 
+        (args = args.concat(a)).length == f.length  // add arugments and compare to f len
             ? f(args) 
             : fn;
     }

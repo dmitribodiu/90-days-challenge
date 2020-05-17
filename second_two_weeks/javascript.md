@@ -1,6 +1,6 @@
 # ■■■ Day 16
 # JS ninja >>>>>
-# Objects and regexp <<<
+# Objects and collections <<<
 # OOP with prototypes
 A `prototype` is an object to which the search for a particular property
 can be delegated to.
@@ -346,8 +346,9 @@ In many real-world problems, we have to deal with collections of `distinct` item
     const ninjas = new Set(Enumerable);
     ```
     Discrete mathematic's funcitons on sets you have to implement yourself.
-    
-# Regular expressions
+
+# ■■■ Day 17
+# Regular expressions <<<
 ## What's good about them?
 Then allow to solve pattern matching problems elegantly.
 
@@ -390,48 +391,76 @@ Constructor regex is used to create regex from a sting at runtime.
         - `alternation`
     19. a+|b+ - sequence of a's or a sequence of b's
         - `backreferences`
-<!-- p 266 -->
+    The notation for such a term is the backslash followed by the number of
+    the capture to be referenced, beginning with 1, such as `\1, \2,` and so on
 
+    e.g : 
+        - `/^([dtn])a\1/` -> `\1` is not known until evaluation time.
+        - `/<(\w+)>(.+)<\/\1>/` -> catches xml tags with non-empty body.
 
+## Capturing matching segments
+Determining whether a string matches a pattern is an obvious first step
+and often all that we need, but determining `what` was matched is also
+useful in many situations.
+    
+1. Simple captures
+    string example -> transform:translateY(15px)
+    task -> capture translateY value
+    solved -> `/translateY\(([^\)]+)\)/`
+        - translateY\( -> matches translateY(
+        - ([^\)]+) -> matches everything that is `not` ) and occures more than once.
+        - \) -> matches )
 
+2. Using global expressions
+    If you use global flag with a `match` function, the funciton will return 
+    all matches in the whole string, but won't return individual matches separately
+    (in case you have multiple capturing groups)
 
+    If you don't use the global flag, the match funciton will return all your 
+    capturing groups but only from the first match.
+    
+    To get access to `all captuiring groups from the whole string` you need another 
+    method : `exec`, which you can repeatedly call on the same string.
+    each subsequent call progresses to the next global match.
+    Each call returns the next match `and` its captures.
+    ```js
+    while ((match = tag.exec(html)) !== null) {...}
+    ```
 
+3. Referencing captures
+    We can refer to portions of a match that we’ve captured in two ways: one within the
+    match itself, and one within a replacement string (where applicable).
+    `/<(\w+)([^>]*)>(.*?)<\/\1>/g;`
+    Matches tags.
+    
+    `assert("fontFamily".replace(/([A-Z])/g, "-$1"`
+    backreference within a replacement string
+    (transforms pascalCase to hyphen-case)
 
+4. Non-capturing groups
+    To indicate that a set of parentheses shouldn’t result in a capture, the regular
+    expression syntax lets us put the notation `?:` immediately after the opening bracket.
+    ```js
+    const pattern = /((?:ninja-)+)sword/;
+    ```
+    causes only the outer set of parentheses to create a capture
 
+## Replacing using functions
+The `replace` method of the String object is powerful and versatile.
 
+let’s say that we want to replace all uppercase characters in a string with X
+```js
+"ABCDEfg".replace(/[A-Z]/g,"X")
+```
+But perhaps the most powerful feature presented by replace is the ability to provide
+a function as the replacement value rather than a fixed string. The function will
+be invoked on every match. 
+Parameters : (matchLength, capture1, capture2 ..., indexOfTheMatch, sourceString)
 
+The value `returned` from the function serves as the replacement value.
 
+> common problem
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+1. Matching everything including new line:
+    `[\S\s]*` - everything that is and isn't a whitespace character
 
