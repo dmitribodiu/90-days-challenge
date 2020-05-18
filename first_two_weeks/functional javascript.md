@@ -61,6 +61,8 @@ Solutions:
             }
         };
     }
+    // or
+    const once = (f, cd = true) => (...args) => cd ? (cd != cd, f(...args)) : cd;
     ```
 
 Exercises

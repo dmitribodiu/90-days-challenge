@@ -104,7 +104,7 @@ which may be bad.
     
 2. The instanceof operator
     The instanceof operator works by checking whether the current prototype of the
-    Ninja function is in the prototype chain of the ninja instance.
+    Ninja function is in the `prototype chain` of the ninja instance.
 
 ## Using ES6 classes
 1. Class keyword
@@ -135,7 +135,7 @@ which may be bad.
     ```js
     class Ninja extends Person {    // extends
         constructor(name, weapon){
-            super(name);            // super(...args) calls new Person(...args) to inherit
+            super(name);            // super(...args) calls new Person.bind(this)(...args)
             this.weapon = weapon;
         }
         wieldWeapon(){

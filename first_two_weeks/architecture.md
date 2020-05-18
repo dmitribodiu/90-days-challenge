@@ -308,7 +308,7 @@ for every operation you need to perform e.g : billing, shipping, checkout)
 1. It couples services to the requirements, any change in functionality imposes a change 
     on a service. Functional decomposition precludes reuse
     (you won't be able to use this service in another system)
-    and leads to overly compolex systems
+    and leads to overly complex systems
     (if you choose to create a single service match-all)
 
     Functional decomposition, therefore, tends to make services either too big and too few
@@ -365,7 +365,7 @@ requirements and the design.
 ## Avoid domain decomposition
 Domain decomposition is decomposing a system into building blocks
 based on the business domains. The reason domain decomposition does not work is that
-it is still functional decomposition in disguise.
+it is `still functional decomposition` in disguise.
 
 1. Building a Domain house
     Imagine completely finishing building a single room, you have one room
@@ -399,13 +399,6 @@ But functional decomposition makes the entire system untestable in terms of
 regression testing (because with so many units it's hard to create a complete list 
 of regression tests), and untestable systems are always rife with defects.
 
-## Physical versus software systems
-The main difference between physical and software systems is that when person
-builds a physical thing it't obvious to everyone whether the thing is well architected
-or not. But with software it's not so obvious. Bad architechture is being maintained
-by less experienced engineers, slowing down their growth and in some cases ruining their
-careers. 
-
 ## Example: Functional Trading System
 If you design components so that client has to orchestrate them, every change in
 any component will likely affect the client as well. Whatever change you may want to 
@@ -419,7 +412,7 @@ encapsulates those into services or system building blocks. You then implement
 the required behavior as the interaction between the encapsulated areas of volatility
 
 With volatility-based decomposition you can think of your system as of series of vaults
-that contain granades (changes) than may potentially cause problems to your app.
+that contain granades (changes) that may potentially cause problems to your app.
 
 With functional decomposition, your building blocks represent
 areas of functionality, not volatility so when change happens it may affect multiple
@@ -812,7 +805,7 @@ Requirements change.
     
 ## Composable design
 The goal of any system design is to be able to satisfy `all use cases`.
-The word all in the previous sentence really means `all`:
+The word `all` in the previous sentence really means `all`:
     + present
     + future
     + known
@@ -869,7 +862,7 @@ The laptop provides the feature of word processing by integrating the keyboard,
 the screen, the hard drive, the bus, the CPU, and the memory.
 
 You never should implement feature, you have to implement everything that combined
-will provide the feature and much more. This will make your design solid.
+will provide the feature and much more. This will make your design `solid`.
 
 ## Handling change
 Your software system must respond to changes in the requirements and respond to them fast.
@@ -900,7 +893,7 @@ that the business has for its future and with the business objectives
     The mission is not to build features—`the mission is to build components`
     that will allow for creating `any feature` now and in the future.
     
-    **Vision => Objectives => Mission statement => Architecture**
+    > Vision => Objectives => Mission statement => Architecture
 
 # ■■■ Day 10
 # The Design of Web Apis >>>>>
