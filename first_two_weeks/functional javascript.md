@@ -203,8 +203,9 @@ because they usually care about different things.
         ```
     2. Find average
         ```js
-        const average = (a, i) => b => (a += b) / ++i;
-        const avg = arr.reduce(average(arr[0], 1))
+        const average = (a, i = 1) => b => (a += b) / ++i;
+        let arrAvg = average(0, 0);
+        const avg = arr.reduce((_, v) => arrAvg(v))
         let sn = average(5, 1); // initialization -> average, total items
         ```
     3. Calculating several values at once

@@ -1886,7 +1886,7 @@ we express `what` to do rather than how to do it (declarative approach)
     Imperative code frequently utilizes statements. A statement is a piece
     of code which performs some action.    
 
-    Declarative code relies more on expressions.
+    Declarative code relies more on `expressions`.
     An expression is a piece of code which evaluates to some value.
 
 Functional programming `favors`:
@@ -1993,7 +1993,7 @@ Functional programming `favors`:
     + Simple
 
 ## Functors & Categories
-A functor data type is something you can `map` over. It’s a container which has
+A `functor` data type is something you can `map` over. It’s a container which has
 a map operation which can be used to apply a function to the values inside it.
 Using a functor is easy — just call .map().
 
@@ -2068,7 +2068,7 @@ Turing machine represents a bottom-up, imperative (step-by-step) approach to com
 Both imperative programming and functional programming have their roots in the mathematics
 of computation theory, predating digital computers.
 
-The big idea is `messaging`.
+> The big idea is `messaging`.
 
 1. Essence of OOP
     + encapsulating state

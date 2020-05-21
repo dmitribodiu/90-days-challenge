@@ -360,7 +360,7 @@ Constructor regex is used to create regex from a sting at runtime.
     1. i - case insensitive
     2. g - global
     3. m - multiline (e.g in textarea)
-    4. y - stiky matching (from the last position)
+    4. y - stiky matching (from the `last` position)
     5. u - enable unicode point excapes (\uXXXX)
 
 2. Terms and operators
@@ -453,7 +453,7 @@ let’s say that we want to replace all uppercase characters in a string with X
 "ABCDEfg".replace(/[A-Z]/g,"X")
 ```
 But perhaps the most powerful feature presented by replace is the ability to provide
-a function as the replacement value rather than a fixed string. The function will
+a `function` as the replacement value rather than a fixed string. The function will
 be invoked on every match. 
 Parameters : (matchLength, capture1, capture2 ..., indexOfTheMatch, sourceString)
 
