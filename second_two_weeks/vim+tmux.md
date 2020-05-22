@@ -74,13 +74,16 @@ switch quickly between files.
         a - buffer is active
     When you open another file with `:e` it will be loaded on the buffer stack
     You will be able to access previous buffer with `:b1` command
-    You can also got to any file in a buffer stack with partical search string
+    You can also get to any file in a buffer stack with partical search string
     like this: `:b cat`
 
     To delete a file from the buffer, type `:bd`, this is a safe command
     it throws an error if you haven't saved the file.
 
-2. Plugin spotlight - unimpared
+    To delete specific buffer in a window type `:bd filename` 
+    to get autocompletion, press tab after the space.
+
+2.  Unimpared
     Allows you to quickly swap buffers with the following shortcuts
         1. ]b [b - cycle throught buffers
         2. [f ]f - cycle throught files in the same directory as the current buffer
@@ -115,7 +118,7 @@ switch quickly between files.
 
 5. Resizing windows
     ctrl + w + = - make all windows equal
-    `:resize +N` - increases the height of the current window by N `columns`
+    `:resize +N` - increases the height of the current window by N `rows`
     `:vertical resize` - increases or decreases the width
     shortcuts - res and vert res
     
@@ -152,4 +155,111 @@ switch quickly between files.
         Is a built-in file manager in Vim
 
         Use `:Ex[plore]` to open file navigation window.
+        You can also call it just by opening a directory in vim `:e /dir`
 
+        Commands: 
+            enter - opens files/dirs
+            '-' - go 'up' directory
+            D - delete f/d
+            R - rename f/d
+
+            :Vex - open in vertical split
+            :Sex - open in horisontal split
+            :Lex - left full-height vertical split
+    2. :e with wildMenu
+        Another way to browse files is with `set wildmenu` in vimrc
+        It shows you possible files in your directory on tab in `:e ` command
+        
+        When you focus on directory you can press down arrow to go down 
+        the directory or you can always press up arrow to go back.
+
+        `set wildmode=list:longest,full` - allows you to autocomplete to the 
+            longest match possible on a first tab, and traverse files on a second tab.
+
+    3. NERDTree
+       Call - `:NERDTree'
+       Move - h/j/k/l
+       Open - enter/o, it opens files in the last created window
+       
+       Adding bookmark - place a cursor on a dir, execute `:Bookmark`
+       To toggle bookmarks - press B.
+       
+       To enable nerdtree on startup add to your vimrc `autocmd VimEnter * NERDTree`
+
+    4. Vinegar
+       It allows you to open file tree in the windows you are currently in.
+       To open Ftree, press `-`
+       Before opening Ftree don't forget to save changes to file.
+
+    5. CtrlP
+       Is a fuzzy completion plugin that allows you to open files quickly in case you know 
+       what you are looking for. 
+
+       To find files, hit Ctrl+p.
+       To navigate files, press Ctrl + j/k
+       To open file, press enter
+       To close CtrlP window, press esc
+
+       This plugin also allows you to navigate through buffers - ctrl + b
+       and most recently used files - ctrl + f (first you have to open ctrlP window)
+
+9. Navigating text
+    F/f - search character in line back/forward
+    T/t - search until character
+    (_/^)/$ - go to start/end of the non-blank line
+    0 - (zero) - go to the very beginning of the line
+    ge - go to the end of the previous word
+    
+    ctrl + b/f - scroll one page back/forward
+   
+    (/) - go back/forward one sentence.
+    
+    To see line numbers add `set numbers` to vimrc
+    To jump to specific line:
+        vim filename +N (plus is mandatory)
+        ex:N
+    To jump relatively:
+        ex:+/-N
+    To display numbers relatively - `set relativenumber`
+
+10. Jumping into insert mode
+    a/A/i/I/o/O - after/EOL/before/BOL/below/above
+    gi - insert where you last edited
+    C - detele to the right of the cursor
+    cc/S - same, delete the whole line
+    s - delete a single character
+
+11. Searching with / and ?
+    `set hlsearch` - highlights every match.
+    `set incsearch` - move to the next match as soon as you type
+    
+12. Searching across files
+    There are two commands for this - `:grep` and `:vimgrep`
+    vimgrep - for novices, grep for pros
+
+    How to use vimgrep: 
+        syntax: `:vimgrep <pattern><path>
+        pattern - can be a string or regex
+        path - normally it's `**`, but to restrict filetype - `**/*.js`
+        
+        to navigate between matches execute - `:copen`, navigate by j/k and 
+        press enter to go to match.
+
+13. ack
+    you can use this `linux` package to search through code bases.
+    this package is a spiritual successor of grep
+    install - `sudo apt-get install ack-grep`
+    to integrate with vim quickfix window, install plugin `ack.vim`
+        execute - `:Ack --python Animal`, which will run ack and populate qf window
+        which you will be able to see with `:copen`
+        
+14. Using text objects
+    Text objects are only available in combination with other commands.
+    e.g:
+        d2aw, ci)
+        
+    Characters commonly used in pairs in programming are all supported.
+    e.g: ', ", {, [
+
+15. Easymotion (plugin)
+    
