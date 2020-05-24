@@ -1,6 +1,6 @@
 # ■■■ Day 20
 # Introduction <<<<<
-- ctrl + e - scroll window down
+- ctrl + e - scroll window down (window, not cursor)
 - ctrl + y - scroll window up
 
 ## Plugins
@@ -79,6 +79,8 @@ switch quickly between files.
 
     To delete a file from the buffer, type `:bd`, this is a safe command
     it throws an error if you haven't saved the file.
+    You should delete the buffer that you are not currently on.
+    Otherwise you will exit vim.
 
     To delete specific buffer in a window type `:bd filename` 
     to get autocompletion, press tab after the space.
@@ -114,7 +116,7 @@ switch quickly between files.
     e.g `:b cat`
 
     You can move windows with `ctrl + w + r` command which shifts every window
-    within a row/col.
+    within a row/col. (r - rotate)
 
 5. Resizing windows
     ctrl + w + = - make all windows equal
@@ -262,4 +264,109 @@ switch quickly between files.
     e.g: ', ", {, [
 
 15. Easymotion (plugin)
+    To invoke the plugin heat the leader key twice ('\')
+    After that press w.
+
+    This plugin supports the following commands:
+        f, t, w, b, k, j, n (based on the last search)
+
+    You can customize other keys, to search for what you want.
+
+16. Copying and pasting with registers
+    y - copy character/selection
+    yy - copy line
+    y<text obj(w,e,{)> - copy text obj
+
+    p - paste what you have copied
+
+    when you copy text it's saved in `registers`
+    You can access registers by hitting(not exec) "<reg_name>
+    then you can copy or paste to registers, by putting 
+    p or c after `"<reg_name>`.
+
+    "Unnamed" register can be accessed with double empty quotes.
+
+    E.g to paste from a register you can press `"ap`
+    to paste from unnamed register - `""p` which is the same as just p.
     
+    Numbered registers - history of your delete operations.
+
+    To see register content - execute `:reg`
+    to see specific register content - `:reg a`
+
+17. Copying from outside
+    register called `*` is system clipboard (not in linux)
+    in linux - `+`
+    
+# Plugin management
+## Managing plugins
+The newest plugin manager is vim-plug
+To add plugin, paste path from github domain to the plugin
+between calls to plugin manager.
+
+To install listed plugins execute `:PlugInstall`
+To update plugins - `:PlugUpdate`
+To delete plugins that are no longer in your vimrc - `:PlugDelete`
+
+1. Lazy loading
+    To load on execution command - `Plug 'pathtoplugin', {'on': 'NERDTreeToggle'}
+    To load for special filetype - xxxxxxxxxxxxxxxxxx, {'for': 'markdown'}
+    
+## Plugin performance profiling
+You can use --startuptime flat when calling vim.
+
+## Deep dive into modes
+1. Command line mode
+    How to enter? - hit colon `:`, or `/` or `?`
+    Traverse history - arrows OR ctrl+p/ctrl+n
+
+    Open history buffer - ctrl+f
+    Closer history buffer - ctrl+c
+    Execute command from history buffer - enter
+    
+2. Insert mode
+3. Visual mode
+    v, V, ctrl+v - char, line, block visual modes
+    Expand selection from another side - o
+    Discard selection - esc
+
+4. Replace mode
+    R - enter replace mode
+    This mode replaces each character.
+
+5. Terminal mode
+    `:term` - enter terminal mode
+    This mode allows you to execute terminal commands in a separate window
+    
+    To move from the termila window you can still use ctrl+w+h command.
+
+    You can get output form terminal command in a buffer like this:
+        `:term python3 app.py input1 input2`
+        result will be awailable to you in a horizontal split
+
+    To exit terminal mode, press `ctrl + w` then type `:q!`
+
+## Remapping commands
+For remapping, vim provides two commands
+    :map - recursive mapping
+    :noremap - non recursive mapping
+
+map commands are aware of other custom mappings, while noremap 
+works with system defaults
+
+To see other mapped commands defined by you or your plugins,
+use `:map` command like this - `:map g` - shows every mapping starting with g.
+
+When we remap ; to : we should use `noremap` because we still want to
+enter command mode on ; even after colon gets remapped to something else
+
+To map save to ctrl + s - `noremap <c-s> :w<cr>` Note, <cr> is carriage return.
+To map alt - `<a-x>`
+To map shift - `<s-x>`
+
+You can map to almost all different keys
+
+## The leader key
+Leader key is a namespace for user/plugin defined shortcuts.
+Default is backslash, but it's common in community to remap it to comma.
+
