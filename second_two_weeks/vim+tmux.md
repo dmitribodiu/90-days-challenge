@@ -182,7 +182,9 @@ switch quickly between files.
        Call - `:NERDTree'
        Move - h/j/k/l
        Open - enter/o, it opens files in the last created window
-       
+       Create a file or directory - type m then a then pvovide
+        the name of the file or if you want to create a directory, add / 
+        to the end.
        Adding bookmark - place a cursor on a dir, execute `:Bookmark`
        To toggle bookmarks - press B.
        
@@ -263,15 +265,6 @@ switch quickly between files.
     Characters commonly used in pairs in programming are all supported.
     e.g: ', ", {, [
 
-15. Easymotion (plugin)
-    To invoke the plugin heat the leader key twice ('\')
-    After that press w.
-
-    This plugin supports the following commands:
-        f, t, w, b, k, j, n (based on the last search)
-
-    You can customize other keys, to search for what you want.
-
 16. Copying and pasting with registers
     y - copy character/selection
     yy - copy line
@@ -297,6 +290,11 @@ switch quickly between files.
 17. Copying from outside
     register called `*` is system clipboard (not in linux)
     in linux - `+`
+
+18. CoC
+    You can have different extentions for this plugin, check the github page.
+    
+
     
 # Plugin management
 ## Managing plugins
@@ -369,4 +367,5 @@ You can map to almost all different keys
 ## The leader key
 Leader key is a namespace for user/plugin defined shortcuts.
 Default is backslash, but it's common in community to remap it to comma.
+
 
